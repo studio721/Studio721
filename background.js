@@ -14,5 +14,5 @@ chrome.browserAction.onClicked.addListener(function(){
     chrome.tabs.getSelected(null, function(tab) {
         id = tab.id
      })
-    chrome.tabs.sendMessage(id,{sendMessage:true, data:"youtube:https://youtube.com/watch?v=fx2Z5ZD_Rbo"})
+    chrome.tabs.sendMessage(id,{sendMessage:true, data:"test data"})
 })
