@@ -1,12 +1,37 @@
 chrome.runtime.onMessage.addListener(gotMessage);
 let lastMessageTime = Date.now();
+
+
 function gotMessage(message, sender, sendResponse) {
     if (message.sendMessage) { sendMessage(message.data) }
     if (document.querySelectorAll('[aria-label="Send a message to everyone"]').length == 0) {
         document.querySelectorAll("[data-tooltip]")[4].click()
         document.querySelector('[aria-label="Close"]').style.display = "none"
-        let button = document.querySelectorAll("[aria-label='Send a message to everyone']")[1];
+
+        var youtubeDiv = document.createElement('div');
+        youtubeDiv.style.paddingRight = "15px";
+        youtubeDiv.classList.add("youtubeBtn");
+
+        var image = document.createElement("img");
+        image.src = "https://i.ibb.co/0QBkmSh/youtube.png";
+        image.style.width = "24px";
+        youtubeDiv.appendChild(image)
+
+        var label = document.createElement("div");
+        label.innerHTML = "Youtube"
+        label.classList.add("I98jWb");
+
+        youtubeDiv.appendChild(label);
+
+        var btmBar = document.querySelector(".LCXT6");
+        btmBar.insertBefore(youtubeDiv, btmBar.childNodes[2]);
+
+        youtubeDiv.addEventListener('click', function () {
+            alert("oh yeah :)")
+        });
     }
+
+
     const chatElements = document.querySelectorAll("[data-message-text]");
     // element = document.querySelector('textarea'); 
     for (chatElement of chatElements) {
@@ -76,5 +101,8 @@ class Type {
 // element.style.color = "white";
 // element.style.fontSize = "30px";
 // document.querySelector(".eFmLfc").appendChild(element);  
+
+
+
 
 
