@@ -5,7 +5,7 @@ This extension was designed by an educator and created by student interns in the
 This extension is designed as a platform for a number of enhancements that could be made to Google Meet to make it more useful in the educational environment. Many of the features of the extension also have real world uses.
 
 ## YouTube Video Sharing (in development)
-Nearly all video conferencing platforms require the presenter to play a video locally and share their screen to share it with the audience. This results in poorer quality because the video is recompressed on the presenters machine and is limited by the video settings of the presenters computer as driven by their computer's power and internet speed. In addition there are often issues with audio playback based on user and technical errors.
+Nearly all video conferencing platforms require the presenter to play a video locally and share their screen to share it with the audience. This results in poorer quality because the video is recompressed on the presenter's machine and is limited by the video settings of the presenter's computer as driven by their computer's power and internet speed. In addition there are often issues with audio playback based on user and technical errors.
 
 | Currently | Studio 721 |
 |-----------|------------|
