@@ -7,6 +7,10 @@ This extension is designed as a platform for a number of enhancements that could
 ## YouTube Video Sharing (in development)
 Nearly all video conferencing platforms require the presenter to play a video locally and share their screen to share it with the audience. This results in poorer quality because the video is recompressed on the presenters machine and is limited by the video settings of the presenters computer as driven by their computer's power and internet speed. In addition there are often issues with audio playback based on user and technical errors.
 
+| Currently | Studio 721 |
+|-----------|------------|
+| <img src="Before.png" width=350px alt="current flow diagram" /> | <img src="After.png" width=350px alt="Studio 721 flow diagram" /> |
+
 Studio 721 sees video sharing differently. It coordinates playback of YouTube videos simultaneously on all client machines. This permits the viewer to see the highest possible quality on their computer with no loss of audio.
 
 ## Check for Understanding (planned)
