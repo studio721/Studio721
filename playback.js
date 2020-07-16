@@ -1,9 +1,7 @@
-//Player Initialization
 var player,
     time_update_interval = 0;
 
 function buttonClicked() {
-
     var url = document.getElementById("vid-url").value;
     if (url != null && url != "") {
         //adds "https://" to url if needed
@@ -30,11 +28,9 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('video-placeholder', {
         width: 620,
         height: 400,
-        // videoId: 'Xa0Q0J5tOP0',
         playerVars: {
             color: 'white',
             controls: 0
-            //playlist: 'taJ60kskkns,FG0fTKAqZ5g'
         },
         events: {
             onReady: initialize
@@ -44,27 +40,18 @@ function onYouTubeIframeAPIReady() {
 
 function initialize() {
 
-    // Update the controls on load
     updateTimerDisplay();
     updateProgressBar();
-
-    // Clear any old interval.
     clearInterval(time_update_interval);
-
-    // Start interval to update elapsed time display and
-    // the elapsed part of the progress bar every second.
+    //updates progress bar every second
     time_update_interval = setInterval(function () {
         updateTimerDisplay();
         updateProgressBar();
     }, 1000)
-
-    $('#volume-input').val(Math.round(player.getVolume()));
 }
 
 //Duration
-// This function is called by initialize()
 function updateTimerDisplay() {
-    // Update current time text display.
     $('#current-time').text(formatTime(player.getCurrentTime()));
     $('#duration').text(formatTime(player.getDuration()));
 }
@@ -82,7 +69,6 @@ function formatTime(time) {
 
 //Progress Bar
 $('#progress-bar').on('mouseup touchend', function (e) {
-
     // Calculate the new time for the video.
     // new time in seconds = total duration in seconds * ( value of range input / 100 )
     var newTime = player.getDuration() * (e.target.value / 100);
@@ -92,15 +78,15 @@ $('#progress-bar').on('mouseup touchend', function (e) {
 
 });
 
-// This function is called by initialize()
 function updateProgressBar() {
-    // Update the value of our progress bar accordingly.
+    // Update the value of progress bar accordingly.
     $('#progress-bar').val((player.getCurrentTime() / player.getDuration()) * 100);
 }
 
-//Play/Pause
+//Play/Pause toggle
 $('#play-pause').on('click', function () {
     var x = document.getElementById("play-pause");
+    
     if (x.innerHTML === "pause") {
         player.pauseVideo();
         x.innerHTML = "play_arrow";
@@ -111,7 +97,7 @@ $('#play-pause').on('click', function () {
     }
 });
 
-//Mute/Unmute
+//Mute/Unmute toggle
 $('#mute-toggle').on('click', function () {
     var mute_toggle = $(this);
 
@@ -123,8 +109,4 @@ $('#mute-toggle').on('click', function () {
         player.mute();
         mute_toggle.text('volume_off');
     }
-});
-
-$('pre code').each(function (i, block) {
-    hljs.highlightBlock(block);
 });
