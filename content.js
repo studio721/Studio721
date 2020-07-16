@@ -22,7 +22,6 @@ function gotMessage(message, sender, sendResponse) {
         label.classList.add("I98jWb");
 
         youtubeDiv.appendChild(label);
-
         var btmBar = document.querySelector(".LCXT6");
         btmBar.insertBefore(youtubeDiv, btmBar.childNodes[2]);
 
@@ -74,9 +73,8 @@ function getDifferenceInSeconds(date1, date2 = Date.now()) {
     return diffInMs / 1000.0;
 }
 
-function showYoutubeVideo(link = "") {
-    alert(`showing video ${link}`);
-}
+
+
 
 
 class Type {
@@ -88,20 +86,18 @@ class Type {
         if (this.signal == "studio721") {
             switch (this.service) {
                 case "youtube":
-                    showYoutubeVideo(this.content)
+                    break;
+                case "timeCode":
+                    break;
+                case "pause":
+                    break;
+                case "play":
                     break;
                 default:
             }
         }
     }
 }
-
-// var element = document.createElement('h1');
-// element.innerHTML = "hello"
-// element.style.color = "white";
-// element.style.fontSize = "30px";
-// document.querySelector(".eFmLfc").appendChild(element);  
-
 
 
 
