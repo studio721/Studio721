@@ -65,9 +65,9 @@ function validateYouTubeUrl(url) {
                 $.each( results.items, function( index, item ) {
                     var title = item.snippet.title;
                     var id = item.id.videoId;
-                    html += "<div class='video'>";
                     html += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + id + '?controls=0" frameborder="0" allowfullscreen></iframe>';
                     html += "<h3>" + title + "</h3>";
+                    html += "<div class='video'>";
                     html += "</div>";
                 });
                 $( "#response").html( html );
