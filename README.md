@@ -23,3 +23,5 @@ Teachers can poll students and check for understanding through predefined Google
 Everyone shares slides during videoconferences and, much like video, these slides can suffer from problems from being encoded as video and displayed to the viewer. Instead Studio 721 intends to display the Google Slides Presenter view to the presenter and the presentation view to each participant is opened directly in Meet, not from a video. In addition both the teacher and students have easy access from within Meet to the Google Slides Q&A tool.
 
 This tool could be extended to support the dual screen experience of add ons like [Pear Deck](https://peardeck.com).
+
+
