@@ -9,7 +9,7 @@ Nearly all video conferencing platforms require the presenter to play a video lo
 
 | Currently | Studio 721 |
 |-----------|------------|
-| <img src="Before.png" width=350px alt="current flow diagram" /> | <img src="After.png" width=350px alt="Studio 721 flow diagram" /> |
+| <img src="assets/Before.png" width=350px alt="current flow diagram" /> | <img src="assets/After.png" width=350px alt="Studio 721 flow diagram" /> |
 
 Studio 721 sees video sharing differently. It coordinates playback of YouTube videos simultaneously on all client machines. This permits the viewer to see the highest possible quality on their computer with no loss of audio.
 
