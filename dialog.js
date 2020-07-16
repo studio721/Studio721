@@ -27,7 +27,6 @@ function buttonClicked() {
     }
 }
 
-
 function validateYouTubeUrl(url) {
     //checks if valid YouTube url
     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
@@ -39,3 +38,51 @@ function validateYouTubeUrl(url) {
             document.getElementById("dialog-box").style.display = "none";
     }
 }
+
+(function( $ ) {
+
+    var App = {
+        init: function() {
+            gapi.client.setApiKey( "AIzaSyDk2FGm_W_j3-7flWUWqkugwa1fPhJ8cPg" );
+            gapi.client.load( "youtube", "v3", function() {
+                //App.getVideos();
+            });
+        },
+        getVideos: function( query ) {
+            query = query || "jquery";
+
+            var request = gapi.client.youtube.search.list({
+                part: "snippet",
+                type: "video",
+                q: query,
+                maxResults: 20,
+                order: "viewCount"
+            });
+
+            request.execute(function( response ) {
+                var results = response.result;
+                var html = "";
+                $.each( results.items, function( index, item ) {
+                    var title = item.snippet.title;
+                    var id = item.id.videoId;
+                    html += "<div class='video'>";
+                    html += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + id + '?controls=0" frameborder="0" allowfullscreen></iframe>';
+                    html += "<h3>" + title + "</h3>";
+                    html += "</div>";
+                });
+                $( "#response").html( html );
+            });
+        }
+    };
+
+    $(function() {
+        $( "#search-youtube").submit(function( e ) {
+	       e.preventDefault();
+           var queryStr = encodeURIComponent( $( "#q" ).val() ).replace( /%20/g, "+" );
+           App.getVideos( queryStr );
+        });
+    });
+
+    window.init = App.init;
+
+})( jQuery );
