@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="dialog.css">
+
+<head>
+    <title>YouTube Display</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>YouTube Display</h2>
+
+        <button onclick="document.getElementById('dialog-box').style.display='block'">
+            Share YouTube video
+        </button>
+
+        <br><br>
+
+        <!--<iframe id="video-object" width="560" height="315" frameborder="0" allow="accelerometer; 
+            encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>-->
+
+        <div id="dialog-box" class="dialog">
+            <div class="dialog-content animate-zoom">
+                <header class="container">
+                    <h2>Play YouTube video</h2>
+                </header>
+
+                <div class="bar border-bottom">
+                    <button class="tablink bar-item" onclick="openFunction(event, 'Paste')">By URL</button>
+                    <button class="tablink bar-item" onclick="openFunction(event, 'Search')">Search</button>
+                </div>
+
+                <!-- Play YouTube video by typing url -->
+                <div id="Paste" class="container input-type">
+                    <input type="text" id="vid-url" size="30">
+                    <input type="button" class="action" value="Select" onclick="buttonClicked()"><br>
+                    <p>Paste your YouTube URL in the box above.</p>
+                </div>
+
+                <!-- Play YouTube video by selecting from search bar -->
+                <div id="Search" class="container input-type">
+                    <input type="text" id="vid-name" size="30">
+                    <input type="button" class="action" value="Search"><br>
+                    <p>Type your search in the box above to find videos.</p>
+                </div>
+
+                <div class="container light-grey padding">
+                    <button class="right white border"
+                        onclick="document.getElementById('dialog-box').style.display='none'">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-display">
+        <div id="video-placeholder" class="video"></div>
+    </div>
+
+    <div id="controls" class="controls">
+
+        <div class="progress-bar">
+            <input type="range" id="progress-bar" value="0"><br>
+        </div>
+
+        <div class="toggle-controls">
+            <i id="play-pause" class="material-icons">pause</i>
+            <i id="mute-toggle" class="material-icons">volume_up</i>
+        </div>
+
+        
+
+        <div class="time-display">
+            <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
+        </div>
+    </div>
+
+    <script src="dialog.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="playback.js"></script>
+
+</body>
+
+</html>
