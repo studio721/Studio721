@@ -1,0 +1,33 @@
+.choice {
+  height: 400px;
+  display: inline-block;
+  width: 100px;
+}
+
+.result {
+  height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+}
+
+.bar {
+  height: 0%;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.bar[data-choice="1"] {
+  background-color: #34a853;
+}
+
+.bar[data-choice="2"] {
+  background-color: #ea4335;
+}
+
+
+.label {
+  height: 25px;
+  text-align: center;
+}
