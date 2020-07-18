@@ -14,32 +14,37 @@
     <div class="container">
         <h2>YouTube Display</h2>
 
-        <button onclick="document.getElementById('dialog-box').style.display='block'">
+        <button onclick="document.getElementById('viewer-dialog-box').style.display='block'">
             Enter YouTube URL
         </button>
 
         <br><br>
 
-        <iframe id="video-object" width="560" height="315" controls="0" frameborder="0" allow="accelerometer;
+        <iframe id="video-object" width="560" height="315" allow="autoplay" frameborder="0" allow="accelerometer;
             encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
         </iframe>
 
-        <div id="dialog-box" class="dialog">
+        <div id="viewer-dialog-box" class="dialog">
             <div class="dialog-content animate-zoom">
                 <header class="container">
                     <h2>Play YouTube video</h2>
                 </header>
 
                 <!-- Play YouTube video by typing url -->
-                <div id="Paste" class="container input-type" style="display: block;">
+                <div id="Play" class="container input-type" style="display: block;">
                     <input type="text" id="vid-url" size="30">
-                    <input type="button" class="action" value="Select" onclick="buttonClicked()"><br>
-                    <p>Paste your YouTube URL with time code in the box above.</p>
+                    <input type="button" class="action" value="Select" onclick="buttonClick()"><br>
+                    <p>Paste your YouTube URL in the box above and press Select.</p>
+                </div>
+                <div id="Time" class="container input-type" style="display: block;">
+                    <input type="text" id="vid-time" size="30">
+                    <input type="button" class="action" value="Select" onclick="buttonClick()"><br>
+                    <p>If you have a time code: Paste your YouTube time code (HH:MM:SS) in the box above.</p>
                 </div>
 
                 <div class="container light-grey padding">
                     <button class="right white border"
-                        onclick="document.getElementById('dialog-box').style.display='none'">Close</button>
+                        onclick="document.getElementById('viewer-dialog-box').style.display='none'">Close</button>
                 </div>
             </div>
         </div>
