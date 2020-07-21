@@ -12,6 +12,7 @@ function openFunction(evt, inputType) {
     }
     document.getElementById(inputType).style.display = "block";
     evt.currentTarget.classList.add("light-grey");
+
 }
 
 function buttonClicked() {
@@ -86,3 +87,6 @@ function validateYouTubeUrl(url) {
     window.init = App.init;
 
 })( jQuery );
+
+}
+
