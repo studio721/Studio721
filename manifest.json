@@ -9,7 +9,7 @@
         },
         {
             "matches": ["*://*.meet.google.com/*"],
-            "js":["JS/inject.js","JS/inject-external.js"],
+            "js":["JS/inject.js","JS/external/youtube.js"],
             "css":["CSS/inject.css"]
         }
     ],
