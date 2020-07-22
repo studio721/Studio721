@@ -1,79 +1,94 @@
+
+
 var player,
     time_update_interval = 0;
 document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
     setTimeout(function() {
         console.log("JOINED")
-        document.querySelectorAll(".ZaI3hb")[1].addEventListener("click", function() {
-            setTimeout(function() {
-                console.log("OPENED CHAT")
+                var popupGroup = document.createElement("div");
                 var videoPlaceholder = document.createElement("div");
                 videoPlaceholder.id = "video-placeholder";
+                videoPlaceholder.style.position = "absolute";
+                videoPlaceholder.style.left = "0px";
+                videoPlaceholder.style.top = "10px";
+                videoPlaceholder.style.height = "300px";
+                videoPlaceholder.style.width = "465px";    
+                videoPlaceholder.style.zIndex = 0;
                 videoPlaceholder.classList.add("video");
-                document.querySelector(".vvTMTb").prepend(videoPlaceholder);
+                popupGroup.append(videoPlaceholder);
 
                 var content = `  
-            
-                <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-                <div class="container">
-                <h2>YouTube Viewer</h2>
-                <button class="shareVideo button openDialog">
-                Share YouTube video
-                </button>
-                <br><br>
-                <div id="dialog-box" class="dialog">
-                    <div class="dialog-content animate-zoom">
-                        <header class="container">
-                            <h2></h2>
-                        </header>
-                        <button style="margin-left:7px; margin-bottom: 5px; " class="tablink button byURL">By URL</button>
-                        <button class="tablink button searchBarBTN ">Search</button>
+    
+                <div class="video-display" style="z-index:0; display:none;">
+                </div> `
 
-                       
-                        <div id="Paste" class="container input-type">
-                            <input value="https://www.youtube.com/watch?v=LkjvwtQfRw8" type="text" id="vid-url" size="30">
-                            <input type="button" class="action selectBTN" value="Select"><br>
-                            <p>Paste your YouTube URL in the box above.</p>
-                        </div>
+                 var controls = `
+
+                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+                 <div id="dialog-box" style="display:none; z-index:200;" class="dialog">
+                     <div class="dialog-content animate-zoom">
+                         <header class="container">
+                             <h2></h2>
+                         </header>
+                         <button style="margin-left:7px; margin-bottom: 5px; " class="tablink button byURL">By URL</button>
+                         <button class="tablink button searchBarBTN ">Search</button>
+                         
+
+                         <div id="Paste" class="container input-type">
+                             <input value="https://www.youtube.com/watch?v=LkjvwtQfRw8" type="text" id="vid-url" size="30">
+                             <input type="button" class="form-control action selectBTN" value="Select"><br>
+                             <p>Paste your YouTube URL in the box above.</p>
+                         </div>
+ 
+ 
+                       <div id="Search" class="container input-type">
+                           <input type="text" id="vid-name" size="30">
+                           <input type="button" class="action searchBTN" value="Search"><br>
+                           <p>Type your search in the box above to find videos.</p>
+                       </div>
+                     
+                       <div id="response"></div>
 
 
-                      <div id="Search" class="container input-type">
-                          <input type="text" id="vid-name" size="30">
-                          <input type="button" class="action searchBTN" value="Search"><br>
-                          <p>Type your search in the box above to find videos.</p>
-                      </div>
-                    
+                         <div class="container light-grey padding">
+                             <button class="right white border closeBTN">Close</button>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div style="z-index:101; display:none; position:absolute; left:0px; top:320px;" id="controls" class="controls">
+                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      
+                 <div class="progress-bar">
+                     <input type="range" id="progress-bar" value="0"><br>
+                 </div>
+                 <div class="toggle-controls">
+                     <i id="play-pause" class="material-icons">pause</i>
+                     <i id="mute-toggle" class="material-icons">volume_up</i>
+                 </div>
+                 <div class="time-display">
+                     <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
+                 </div>
 
 
-                        <div class="container light-grey padding">
-                            <button class="right white border closeBTN">Close</button>
-                        </div>
-                    </div>
-                </div>
-                </div>
-                <div class="video-display">
-                <div id="video-placeholder" class="video"></div>
-                </div>
-                <div id="controls" class="controls">
-                <div class="progress-bar">
-                    <input type="range" id="progress-bar" value="0"><br>
-                </div>
-                <div class="toggle-controls">
-                    <i id="play-pause" class="material-icons">pause</i>
-                    <i id="mute-toggle" class="material-icons">volume_up</i>
-                </div>
-                <div class="time-display">
-                    <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
-                </div>
-                </div>
-                 `
-                $(".vvTMTb").prepend(content)
 
-                document.querySelector(".shareVideo").addEventListener("click", function() {
-                    document.getElementById('dialog-box').style.display = 'block';
-                });
+                 </div>`
+                 document.querySelector("body").prepend(popupGroup);
+
+
+                $(popupGroup).append(content);
+
+
+                $("body").append(controls);
+
+                // document.querySelector(".shareVideo").addEventListener("click", function() {
+                //     document.getElementById('dialog-box').style.display = 'block';
+                // });
                 
                 document.querySelector(".closeBTN").addEventListener("click", function() {
-                    document.getElementById('dialog-box').style.display = 'none'
+                    // document.getElementById('dialog-box').style.display = 'none'
+                    closePlaybackPopup();
                 });
                 
                 document.querySelector(".byURL").addEventListener("click", function() {
@@ -84,10 +99,56 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
                     openFunction(event, 'Search')
                 });
 
-                // document.querySelector(".searchBTN").addEventListener("click", function () {
-                //     // openFunction(event, 'Search')
 
-                // });
+                function openYoutubeDialog(){
+                    // document.querySelector("#video-placeholder").style.zIndex = 100;            
+                    document.querySelectorAll("[data-tooltip]")[4].click()
+                    document.querySelector("#dialog-box").style.display = "block";
+                }
+
+                function openPlaybackPopup(){
+                    document.querySelector("#video-placeholder").style.zIndex = 100;
+                    document.querySelectorAll("[data-tooltip]")[4].click()
+                    document.querySelector(".controls").style.display = "block";
+                    document.querySelector(".video-display").style.display = "block";
+                }
+
+
+                function closePlaybackPopup(){
+                    document.querySelector("#video-placeholder").style.zIndex = 0;
+                    document.querySelector("#dialog-box").style.display = "none";
+                    document.querySelector(".controls").style.display = "none";
+                }
+
+
+                var youtubeDiv = document.createElement('div');
+                youtubeDiv.style.paddingRight = "15px";
+                youtubeDiv.classList.add("youtubeBtn");
+        
+                var image = document.createElement("img");
+                image.src = "https://i.ibb.co/0QBkmSh/youtube.png";
+                image.style.width = "24px";
+                youtubeDiv.appendChild(image)
+        
+                var label = document.createElement("div");
+                label.innerHTML = "Youtube"
+                label.classList.add("I98jWb");
+        
+                youtubeDiv.appendChild(label);
+                var btmBar = document.querySelector(".LCXT6");
+                btmBar.insertBefore(youtubeDiv, btmBar.childNodes[2]);
+        
+                youtubeDiv.addEventListener('click', function () {
+                    openYoutubeDialog();
+
+                });
+
+
+
+                document.querySelector(".searchBTN").addEventListener("click", function () {
+                    searchVideos(document.querySelector("#vid-name").value)
+
+                });
 
                 
                 document.querySelector(".selectBTN").addEventListener("click", function() {
@@ -125,14 +186,28 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
                     //checks if valid YouTube url
                     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
                     var match = url.match(regExp);
-                    if (match && match[2].length == 11) {            
+                    if (match && match[2].length == 11) {   
+                        openPlaybackPopup();         
                         sendMessage("studio721,youtube," + url);        
                         player.loadVideoById(match[2]);
+
                         document.getElementById("dialog-box").style.display = "none";
                     }
                 }
+
+                function playVideo(id){
+                    document.getElementById("dialog-box").style.display = "none";
+
+                    openPlaybackPopup();         
+                    sendMessage("studio721,youtube,https://www.youtube.com/watch?v=" + id);        
+                    player.loadVideoById(id);
+
+                }
+                
+
                 
                 function initialize() {
+                    // document.querySelector(".exp-search-big-thumbs").style.display = "none";
                     updateTimerDisplay();
                     updateProgressBar();
                     clearInterval(time_update_interval);
@@ -222,67 +297,56 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
 
 
 
-                (function( $ ) {
-                    var App = {
-                        init: function() {
-                            gapi.client.setApiKey( "AIzaSyDk2FGm_W_j3-7flWUWqkugwa1fPhJ8cPg" );
-                            gapi.client.load( "youtube", "v3", function() {
-                                //App.getVideos();
-                            });
-                        },
-                        getVideos: function( query ) {
-                            query = query || "jquery";
+function searchVideos(string) {
+    if(string.length > 1){
+        $.ajax({
+            type: 'GET',
+            url: 'https://www.googleapis.com/youtube/v3/search',
+            data: {
+                key: 'AIzaSyDk2FGm_W_j3-7flWUWqkugwa1fPhJ8cPg',
+                q: string,
+                part: 'snippet',
+                maxResults: 5,
+                type: 'video',
+                videoEmbeddable: true,
+            },
+            success: function(data){
+              //   embedVideo(data)
+              console.log(data)
 
-                            var request = gapi.client.youtube.search.list({
-                                part: "snippet",
-                                type: "video",
-                                q: query,
-                                maxResults: 20,
-                                order: "viewCount"
-                            });
+              
+              $.each( data.items, function( index, item ) {
+                var title = item.snippet.title;
+                var id = item.id.videoId;
+                var thumbnailImage = item.snippet.thumbnails.default.url;
 
-                            request.execute(function( response ) {
-                                var results = response.result;
-                                var html = "";
-                                $.each( results.items, function( index, item ) {
-                                    var title = item.snippet.title;
-                                    var id = item.id.videoId;
-                                    html += '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + id + '?controls=0" frameborder="0" allowfullscreen></iframe>';
-                                    html += "<h3>" + title + "</h3>";
-                                    html += "<div class='video'>";
-                                    html += "</div>";
-                                });
-                                $( "#response").html( html );
-                            });
-                        }
-                    };
+                $( "#response").append(`
+                <h3 class='video-title'>${title}</h3> <img src='${thumbnailImage}' id="videoThumbnail${id}" class="video-thumbnail" width='232.5px' height='150px'>`);             
+                document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function() {
+                    playVideo(id);
+                });
+            });
+      },
+            error: function(response){
+                console.log("Request Failed");
+            }
+          });
+    }
 
-                    $(function() {
+  }
 
-  
-                        $( ".searchBTN").click(function( e ) {
-                            console.log("searched vtn presed")
-                        e.preventDefault();
-                        var queryStr = encodeURIComponent( $( "#q" ).val() ).replace( /%20/g, "+" );
-                        App.getVideos( queryStr );
-                        });
-                    });
-
-                    window.init = App.init;
-
-                })( jQuery );
-                
                 player = new YT.Player('video-placeholder', {
-                width: 310,
-                height: 200,
+        
+                width: 465,
+                height: 300,
                 playerVars: {
                     color: 'white',
                     controls: 0
                 },
                 events: {onReady: initialize }
                 });
-                }, 10);
-                });
+                // }, 10);
+                // });
                 }, 2000);
                 });                
                 
