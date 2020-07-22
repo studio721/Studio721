@@ -24,56 +24,57 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
 
                  var controls = `
 
-                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-                 <div id="dialog-box" style="display:none; z-index:200;" class="dialog">
-                     <div class="dialog-content animate-zoom">
-                         <header class="container">
-                             <h2></h2>
-                         </header>
-                         <button style="margin-left:7px; margin-bottom: 5px; " class="tablink button byURL">By URL</button>
+                 <div class="video-display" style="z-index:0; display:none;">
+                 </div>
+             
+                 <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
+                     <!--  change to none-->
+                     <div class="dialog-content animate-zoom" style="padding-top: 9px;">
+                         <img width=200px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
+                         <br>
+                         <br>
+                         <button style="margin-left:18px; margin-bottom: 5px;" class="tablink button byURL">By URL</button>
                          <button class="tablink button searchBarBTN ">Search</button>
-                         
-
+                         <br>
+                         <br>
                          <div id="Paste" class="container input-type">
-                             <input value="https://www.youtube.com/watch?v=LkjvwtQfRw8" type="text" id="vid-url" size="30">
-                             <input type="button" class="form-control action selectBTN" value="Select"><br>
-                             <p>Paste your YouTube URL in the box above.</p>
+                             <input placeholder="Paste Youtube URL" value="https://www.youtube.com/watch?v=LkjvwtQfRw8"
+                                 class="textInput" type="text" id="vid-url" size="30">
+                             <input type="button" class="form-control action selectBTN selectButton" value="Select"><br>
                          </div>
- 
- 
-                       <div id="Search" class="container input-type">
-                           <input type="text" id="vid-name" size="30">
-                           <input type="button" class="action searchBTN" value="Search"><br>
-                           <p>Type your search in the box above to find videos.</p>
-                       </div>
-                     
-                       <div id="response"></div>
-
-
-                         <div class="container light-grey padding">
-                             <button class="right white border closeBTN">Close</button>
+                         <div id="Search" class="container input-type">
+                             <input placeholder="Search Youtube" class="textInput" type="text" id="vid-name" size="30">
+                             <input type="button" class="selectButton action searchBTN" value="Search">
+                             <br>
+                         </div>
+                         <div id="response"></div>
+                         <div class=" container light-grey padding">
+                             <button class="right button closeBTN" style="padding-top: 4px;"> Close</button>
                          </div>
                      </div>
                  </div>
-
-                 <div style="z-index:101; display:none; position:absolute; left:0px; top:320px;" id="controls" class="controls">
-                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-      
-                 <div class="progress-bar">
-                     <input type="range" id="progress-bar" value="0"><br>
+             
+                 <div style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="controls">
+                     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+                     <div class="progress-bar">
+                         <input type="range" class="slider" id="progress-bar" value="0"><br>
+                     </div>
+                     <div class="toggle-controls" style="margin-top: 10px;">
+                         <i id="play-pause" class="material-icons">pause</i>
+                         <i id="mute-toggle" class="material-icons">volume_up</i>
+                     </div>
+                     <div class="time-display" style="position: relative; top: -6px;">
+                         <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
+                     </div>
+             
+                     <div class=" right toggle-controls" style="margin-top: 10px;">
+                         <i id="close-window" class="material-icons">close</i>
+                         <i id="zoom-in" class="material-icons">zoom_in</i>
+                         <i id="zoom-out" class="material-icons">zoom_out</i>
+                     </div>
                  </div>
-                 <div class="toggle-controls">
-                     <i id="play-pause" class="material-icons">pause</i>
-                     <i id="mute-toggle" class="material-icons">volume_up</i>
-                 </div>
-                 <div class="time-display">
-                     <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
-                 </div>
-
-
-
-                 </div>`
+              
+                 `
                  document.querySelector("body").prepend(popupGroup);
 
 
@@ -196,6 +197,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
                 }
 
                 function playVideo(id){
+                   
                     document.getElementById("dialog-box").style.display = "none";
 
                     openPlaybackPopup();         
@@ -314,15 +316,30 @@ function searchVideos(string) {
               //   embedVideo(data)
               console.log(data)
 
-              
+              $( "#response").empty();
+
               $.each( data.items, function( index, item ) {
                 var title = item.snippet.title;
                 var id = item.id.videoId;
                 var thumbnailImage = item.snippet.thumbnails.default.url;
-
                 $( "#response").append(`
-                <h3 class='video-title'>${title}</h3> <img src='${thumbnailImage}' id="videoThumbnail${id}" class="video-thumbnail" width='232.5px' height='150px'>`);             
+
+               <br>
+                <div class="parent">
+                <div class="column">
+                  <p class='video-title'>${title}</p>
+                  <button class="button " id="playButton${id}" style="margin-left: 20px;">Play</button>
+                </div>
+                <div class="column">
+                  <img src='${thumbnailImage}' id="videoThumbnail${id}"
+                       class="video-thumbnail" width='150px' height='97.5px'>
+                </div>
+              </div>`)
+                       
                 document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function() {
+                    playVideo(id);
+                });
+                document.querySelector(`#playButton${id}`).addEventListener("click", function() {
                     playVideo(id);
                 });
             });
