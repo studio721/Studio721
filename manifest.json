@@ -5,14 +5,18 @@
     "content_scripts":[
         {
             "matches": ["*://*.meet.google.com/*"],
-            "js":["content.js"]
+            "js":["JS/external/jquery.js"]
+        },
+        {
+            "matches": ["*://*.meet.google.com/*"],
+            "js":["JS/inject.js"]
         }
     ],
     "background":{
-        "scripts":["background.js"]
+        "scripts":["JS/background.js"]
     },
     "browser_action":{
-        "default_icon": "icon.png"
+        "default_icon": "assets/icon.png"
     }
 }
 
