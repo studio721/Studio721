@@ -1,10 +1,75 @@
 
+class MessageData {
+    constructor(fullContent = "a,b,c") { //signal, service, content
+        var fullContent = fullContent.split(",");
+        this.signal = fullContent[0];
+        this.service = fullContent[1];
+        this.content = fullContent[2];
+    }
+}
+
 
 var player,
     time_update_interval = 0;
-document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
+    document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
     setTimeout(function() {
         console.log("JOINED")
+
+        setInterval(function() {
+          
+
+            const chatElements = document.querySelectorAll("[data-message-text]");
+            // element = document.querySelector('textarea'); 
+            for (chatElement of chatElements) {
+
+                let chatContent = chatElement.innerHTML;
+                if (chatContent.includes("studio721")) {
+                    var message = new MessageData(chatContent)
+
+                    var x = document.getElementById("play-pause");
+
+
+                    if(message.service == "youtube"){
+                        console.log("playing video with id " + message.content)
+                        document.getElementById("dialog-box").style.display = "none";
+                        openPlaybackPopup();         
+
+
+                        player.loadVideoById(message.content);
+                    }else if(message.service == "pause"){
+                        console.log("pausing video")
+                      
+                        x.innerHTML = "play_arrow";
+                        player.pauseVideo();
+                    }else if(message.service == "play"){
+                        console.log("playing video")
+
+                        x.innerHTML = "pause";
+
+                        player.playVideo();
+                    }else if(message.service == "timeline"){
+                        console.log("going to timestamp " + message.content)
+                        player.seekTo(parseInt(message.content))
+                    }
+                    //@info: chats that are sent at a similar time group together
+                    chatElement.parentElement.children.length > 1 ? chatElement.remove() : chatElement.parentElement.parentElement.remove(); //remove a chat from the DOM depended on whether it is a single chat or a grouped chat
+                }
+            }
+        },  500);
+
+        // document.querySelector(".EIlDfe").classList.add("T3F3Rd")
+        // document.querySelector(".fT3JUc").classList.add("LCXT6")
+        // document.querySelector(".EIlDfe").classList.add("T3F3Rd")
+
+
+        // studio721,youtube,cokCgWPRZPg
+      // studio721,youtube,9Zd9hURkmXM
+    //   studio721,pause,	
+    // studio721,play,	
+    // studio721,timeline,60
+
+        // cokCgWPRZPg
+
                 var popupGroup = document.createElement("div");
                 var videoPlaceholder = document.createElement("div");
                 videoPlaceholder.id = "video-placeholder";
@@ -73,14 +138,9 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
                          <i id="zoom-out" class="material-icons">zoom_out</i>
                      </div>
                  </div>
-              
-                 `
+               `
                  document.querySelector("body").prepend(popupGroup);
-
-
                 $(popupGroup).append(content);
-
-
                 $("body").append(controls);
 
                 // document.querySelector(".shareVideo").addEventListener("click", function() {
@@ -88,8 +148,8 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
                 // });
                 
                 document.querySelector(".closeBTN").addEventListener("click", function() {
-                    // document.getElementById('dialog-box').style.display = 'none'
-                    closePlaybackPopup();
+                    document.getElementById('dialog-box').style.display = 'none'
+                    // closePlaybackPopup();
                 });
                 
                 document.querySelector(".byURL").addEventListener("click", function() {
@@ -184,12 +244,13 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
                 }
                 
                 function validateYouTubeUrl(url) {
+                    console.log("validating url " + url)
                     //checks if valid YouTube url
                     var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
                     var match = url.match(regExp);
                     if (match && match[2].length == 11) {   
                         openPlaybackPopup();         
-                        sendMessage("studio721,youtube," + url);        
+                        sendMessage("studio721,youtube," + url.replace("https://www.youtube.com/watch?v=",""));        
                         player.loadVideoById(match[2]);
 
                         document.getElementById("dialog-box").style.display = "none";
@@ -201,7 +262,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
                     document.getElementById("dialog-box").style.display = "none";
 
                     openPlaybackPopup();         
-                    sendMessage("studio721,youtube,https://www.youtube.com/watch?v=" + id);        
+                    sendMessage("studio721,youtube," + id);        
                     player.loadVideoById(id);
 
                 }
@@ -271,6 +332,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function() {
                 
                 //Play/Pause toggle
                 $('#play-pause').on('click', function() {
+                    document.querySelectorAll("[data-tooltip]")[4].click()
                     var x = document.getElementById("play-pause");
                     if (x.innerHTML === "play_arrow") {
                         sendMessage("studio721,play,")
@@ -352,6 +414,34 @@ function searchVideos(string) {
 
   }
 
+
+
+
+  function onPlayerStateChange(event) {
+    console.log(event.data);
+    var x = document.getElementById("play-pause");
+
+    // youtube fires 2xPAUSED, 1xPLAYING on seek
+    if (event.data == YT.PlayerState.PAUSED) {
+        sendMessage("studio721,pause,")
+        x.innerHTML = "play_arrow";
+
+    }
+    if (event.data == YT.PlayerState.PLAYING) {
+        sendMessage("studio721,play,")
+        x.innerHTML = "pause";
+
+    }
+}
+
+
+//   function framePaused(){
+//       alert("paused")
+//     var x = document.getElementById("play-pause");
+
+//     sendMessage("studio721,play,")
+//     x.innerHTML = "play";
+//   }
                 player = new YT.Player('video-placeholder', {
         
                 width: 465,
@@ -360,7 +450,7 @@ function searchVideos(string) {
                     color: 'white',
                     controls: 0
                 },
-                events: {onReady: initialize }
+                events: {onReady: initialize , "onStateChange": onPlayerStateChange}
                 });
                 // }, 10);
                 // });
