@@ -1,0 +1,28 @@
+
+
+#results li{
+  padding:10px 0;
+  border-bottom:1px #ccc dotted;
+  list-style:none;
+  overflow:auto;
+}
+
+.list-left{
+  float:left;
+  width:20%;
+}
+
+.list-left img{
+  width:100%;
+  padding3px;
+  border:solid #ccc 1px;
+}
+
+.list-right{
+  float:right;
+  width:78%
+}
+
+.cTitle{
+  color:#dd2826;
+}

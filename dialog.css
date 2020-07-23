@@ -1,3 +1,68 @@
+input[type="range"] {
+    width: 600px;
+    vertical-align: center;
+}
+
+.video-display {
+    text-align: left;
+}
+
+.video {
+    margin-left: 45px;
+    vertical-align: left;
+    display: inline-block;
+}
+
+
+
+
+.controls { 
+    margin-left: 45px;
+    width: 600px;
+    height: 50px;
+    padding: 10px;
+    margin-top: 5px;
+    background: white;
+    float: left;
+    vertical-align: left;
+    border-radius: 5px;
+
+    box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    /* border: 5px outset gray; */
+    text-align: left;
+    
+}
+
+
+
+.button{
+box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+background-color: white;
+
+text-align: center;
+
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 0px;
+padding-bottom: 0px;
+
+height:35px;
+border-radius: 5px;
+font-weight: 400;
+}
+
+
+
+
+.time-display {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.toggle-controls {
+    display: inline-block;
+}
+
 .input-type {
     display: none;
 }
@@ -97,4 +162,10 @@
 
 .right {
     float: right !important;
+}
+
+
+body{
+    width: 700px;
+    height: 330px;
 }
