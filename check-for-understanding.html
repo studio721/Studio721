@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="check-for-understanding.css">
+<link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<head>
+    <title>Check for Understanding</title>
+</head>
+
+<body>
+
+    <button id="viewer-button">Launch viewer dialog</button>
+    <button id="presenter-button">Launch presenter dialog</button>
+
+    <div id="viewer-dialog" class="modal">
+        <div class="modal-content">
+            <span class="close-viewer">&times;</span>
+            <h2>Check for Understanding</h2>
+            <h3>Does this make sense?</h3>
+
+            <div class="choice">
+                <div class="label">
+                    <p>Yes</p>
+                    <button data-choice="1" class="material-icons">thumb_up</button>
+                </div>
+            </div>
+
+            <div class="choice">
+                <div class="label">
+                    <p>No</p>
+                    <button data-choice="2" class="material-icons">thumb_down</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="presenter-dialog" class="modal">
+
+        <div class="modal-content">
+            <span class="close-presenter">&times;</span>
+            <h2>Check for Understanding</h2>
+            <h3 id="responses">Responses: 0</h3>
+
+            <div class="choice">
+                <div class="result">
+                    <p class="label" id="percentage1">0%</p>
+                    <div class="bar" data-choice="1"></div>
+                    <p id="tally1">0</p>
+                    <p>Yes</p>
+                </div>
+            </div>
+
+            <div class="choice">
+                <div class="result">
+                    <p class="label" id="percentage2">0%</p>
+                    <div class="bar" data-choice="2"></div>
+                    <p id="tally2">0</p>
+                    <p>No</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="check-for-understanding.js"></script>
+</body>
+
+</html>
