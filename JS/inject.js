@@ -7,7 +7,6 @@ class MessageData {
     }
 }
 
-
 var player,
     time_update_interval = 0;
 document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
@@ -38,24 +37,14 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                     } else if (message.service == "timeline") {
                         console.log("going to timestamp " + message.content)
                         player.seekTo(parseInt(message.content))
+                    } else if (message.service == "cancel") {
+                        cancelVideoPlayback();
                     }
                     //@info: chats that are sent at a similar time group together
                     chatElement.parentElement.children.length > 1 ? chatElement.remove() : chatElement.parentElement.parentElement.remove(); //remove a chat from the DOM depended on whether it is a single chat or a grouped chat
                 }
             }
         }, 500);
-
-        // document.querySelector(".EIlDfe").classList.add("T3F3Rd")
-        // document.querySelector(".fT3JUc").classList.add("LCXT6")
-        // document.querySelector(".EIlDfe").classList.add("T3F3Rd")
-
-
-        // studio721,youtube,cokCgWPRZPg
-        // studio721,youtube,9Zd9hURkmXM
-        //   studio721,pause,	
-        // studio721,play,	
-        // studio721,timeline,60
-
         function isAdmin() {
             // openChat();
             return document.body.contains(document.querySelector(".K74C9e"))
@@ -90,13 +79,9 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         videoPlaceholder.classList.add("video");
         popupGroup.append(videoPlaceholder);
 
-        var content = `  
-    
-                <div class="video-display" style="z-index:0; display:none;">
-                </div> `
-
         var controls = `
-                 <div class="video-display" style="z-index:0; display:none;">
+    
+                 <div class="video-display"  style="z-index:0; display:none;">
                  </div>
              
                  <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
@@ -126,7 +111,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                      </div>
                  </div>
              
-                 <div style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="controls">
+                 <div id=""  style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="controls">
                      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
                      <div class="progress-bar">
                          <input type="range" class="slider" id="progress-bar" value="0"><br>
@@ -147,15 +132,16 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                  </div>
                `
         document.querySelector("body").prepend(popupGroup);
-        $(popupGroup).append(content);
+        // $(popupGroup).append(content);
         $("body").append(controls);
 
         document.querySelector(".closeBTN").addEventListener("click", function () {
-            document.getElementById('dialog-box').style.display = 'none'
             // closePlaybackPopup();
+            document.getElementById('dialog-box').style.display = 'none'
         });
 
         document.querySelector(".byURL").addEventListener("click", function () {
+
             openFunction(event, 'Paste')
         });
 
@@ -163,19 +149,29 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
             openFunction(event, 'Search')
         });
 
+        document.querySelector("#close-window").addEventListener("click", function () {
+            if (confirm("Are you sure you want to cancel sharing?")) {
+                cancelVideoPlayback();
+            }
+        });
+
         function openYoutubeDialog() {
-            document.querySelector("#video-placeholder").style.zIndex = 100;
-            // openChat();
             document.querySelector("#dialog-box").style.display = "block";
         }
 
         function openPlaybackPopup() {
             document.querySelector("#video-placeholder").style.zIndex = 100;
-            // openChat();
             document.querySelector(".controls").style.display = "block";
             document.querySelector(".video-display").style.display = "block";
         }
 
+        function cancelVideoPlayback() {
+            player.stopVideo()
+            document.querySelector("#video-placeholder").style.zIndex = 0;
+            document.querySelector(".controls").style.display = "none";
+            document.querySelector(".video-display").style.display = "none";
+            sendMessage("studio721,cancel,")
+        }
         function closePlaybackPopup() {
             document.querySelector("#video-placeholder").style.zIndex = 0;
             document.querySelector("#dialog-box").style.display = "none";
@@ -387,13 +383,6 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                             </div>
                         </div>
                         <hr>
-                        
-                  
-    
-
-
-
-
                             `)
 
                             document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function () {
@@ -403,7 +392,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                                 playVideo(id);
                             });
                             document.querySelector(`#viewOnyoutube${id}`).addEventListener("click", function () {
-                                window.open(document.querySelector(`#viewOnyoutube${id}`).getAttribute("url"), '_blank');       
+                                window.open(document.querySelector(`#viewOnyoutube${id}`).getAttribute("url"), '_blank');
                             });
 
                         });
