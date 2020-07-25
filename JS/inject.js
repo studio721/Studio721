@@ -10,9 +10,23 @@ class MessageData {
 var lastSentVideo = "";
 var player,
     time_update_interval = 0;
+
+
+if(document.querySelectorAll(".fT3JUc").length > 0){
+    document.querySelector(".fT3JUc").classList.add("LCXT6");
+}
+
+setInterval(function(){
+    if(document.querySelectorAll(".fT3JUc").length > 0){
+        document.querySelector(".fT3JUc").classList.add("LCXT6");
+    }
+}, 1000);
+
+
 document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
     setTimeout(function () {
         console.log("JOINED")
+
         openChat();
         setInterval(function () {
             const chatElements = document.querySelectorAll("[data-message-text]");
