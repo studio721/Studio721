@@ -7,6 +7,7 @@ class MessageData {
     }
 }
 
+var lastSentVideo = "";
 var player,
     time_update_interval = 0;
 document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
@@ -15,16 +16,22 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         openChat();
         setInterval(function () {
             const chatElements = document.querySelectorAll("[data-message-text]");
-            // element = document.querySelector('textarea'); 
             for (chatElement of chatElements) {
                 let chatContent = chatElement.innerHTML;
                 if (chatContent.includes("studio721")) {
                     var message = new MessageData(chatContent)
                     var x = document.getElementById("play-pause");
                     if (message.service == "youtube") {
+
+                        if(lastSentVideo == message.content){
+                            console.log("you were the one who sent the video")
+                        }else{
+                            console.log("you were NOT the one who sent the video")
+
+                        }
                         console.log("playing video with id " + message.content)
                         document.getElementById("dialog-box").style.display = "none";
-                        openPlaybackPopup();
+                        openPlaybackPopup(lastSentVideo == message.content);
                         player.loadVideoById(message.content);
                     } else if (message.service == "pause") {
                         console.log("pausing video")
@@ -45,20 +52,17 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                 }
             }
         }, 500);
+
         function isAdmin() {
-            // openChat();
             return document.body.contains(document.querySelector(".K74C9e"))
         }
-
         function openChat() {
             if (document.querySelectorAll(".anXpBf").length == 0) {
                 document.querySelectorAll("[data-tooltip]")[4].click()
             }
-            // document.querySelector(".jByv5e").style.display = "none"
         }
 
         function getName() {
-            // openChat();
             for (var element of document.querySelectorAll(".NkoVdd")) {
                 var name = element.innerHTML;
                 if (name.includes("(You)")) {
@@ -83,7 +87,6 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         var controls = `
                  <div class="video-display"  style="z-index:0; display:none;">
                  </div>
-
                  <div style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="  controls">
                      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
                      <div class="progress-bar">
@@ -107,14 +110,11 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                  </div>
                  
                `
-         $(popupGroup).append(controls);
+        $(popupGroup).append(controls);
         document.querySelector("body").prepend(popupGroup);
 
-
-
-        var popup =    `
+        var popup = `
         <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
-
         <div class="dialog-content animate-zoom" style="padding-top: 9px;">
             <img width=170px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
             <br>
@@ -142,12 +142,10 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         $("body").append(popup);
 
         document.querySelector(".closeBTN").addEventListener("click", function () {
-            // closePlaybackPopup();
             document.getElementById('dialog-box').style.display = 'none'
         });
 
         document.querySelector(".byURL").addEventListener("click", function () {
-
             openFunction(event, 'Paste')
         });
 
@@ -161,63 +159,54 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
             }
         });
 
-
-
-
-
         dragElement(document.getElementById("mydiv"));
 
-function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById("resizeIcon")) {
-    // if present, the header is where you move the DIV from:
-    document.getElementById("resizeIcon").onmousedown = dragMouseDown;
-  } else {
-    // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-  }
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("resizeIcon")) {
+                // if present, the header is where you move the DIV from:
+                document.getElementById("resizeIcon").onmousedown = dragMouseDown;
+            } else {
+                // otherwise, move the DIV from anywhere inside the DIV:
+                elmnt.onmousedown = dragMouseDown;
+            }
 
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
 
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
 
-  function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-}
-
-
-
+            function closeDragElement() {
+                // stop moving when mouse button is released:
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
 
         function openYoutubeDialog() {
             document.querySelector("#dialog-box").style.display = "block";
         }
 
-        function openPlaybackPopup() {
+        function openPlaybackPopup(showControls=false) {
             document.querySelector("#video-placeholder").style.zIndex = 100;
-            document.querySelector(".controls").style.display = "block";
+            document.querySelector(".controls").style.display = (showControls ? "block": "none");
             document.querySelector(".video-display").style.display = "block";
         }
 
@@ -228,33 +217,13 @@ function dragElement(elmnt) {
             document.querySelector(".video-display").style.display = "none";
             sendMessage("studio721,cancel,")
         }
+
         function closePlaybackPopup() {
             document.querySelector("#video-placeholder").style.zIndex = 0;
             document.querySelector("#dialog-box").style.display = "none";
             document.querySelector(".controls").style.display = "none";
         }
 
-        // var youtubeDiv = document.createElement('div');
-        // youtubeDiv.style.paddingRight = "15px";
-        // youtubeDiv.classList.add("youtubeBtn");
-        // youtubeDiv.classList.add("z80M1");
-
-        
-
-        // var image = document.createElement("img");
-        // image.src = "https://i.ibb.co/0QBkmSh/youtube.png";
-        // image.style.width = "24px";
-        // youtubeDiv.appendChild(image)
-
-        // var label = document.createElement("div");
-        // label.innerHTML = "Youtube"
-
-        // youtubeDiv.appendChild(label);
-    
-        // var btmBar = document.querySelector(".LCXT6");
-        // btmBar.insertBefore(youtubeDiv, btmBar.childNodes[2]);
-
-       
         document.querySelector(".searchBTN").addEventListener("click", function () {
             searchVideos(document.querySelector("#vid-name").value)
         });
@@ -264,23 +233,20 @@ function dragElement(elmnt) {
         });
 
 
-        document.querySelector(".XMjwIe").addEventListener("click",function(){
-            setTimeout(function(){     
-               $(".JAPqpe").append(`
+        document.querySelector(".XMjwIe").addEventListener("click", function () {
+            setTimeout(function () {
+                $(".JAPqpe").append(`
                 <div class="youtubeDiv" class="youtubeBtn">
                 <img src="https://i.ibb.co/0QBkmSh/youtube.png" width=24 style="display: inline-block; margin-right: 10px; margin-bottom: -7px; margin-left:15px;"> 
                 <p style="display: inline-block;">Youtube</p>
               </div>`)
 
-              document.querySelector(".youtubeDiv").addEventListener('click', function () {
-                openYoutubeDialog();
-            });
-
-            
-        }, 200);
-
+                document.querySelector(".youtubeDiv").addEventListener('click', function () {
+                    openYoutubeDialog();
+                });
+            }, 200);
         });
-            
+
 
         function buttonClicked() {
             var url = document.getElementById("vid-url").value;
@@ -313,18 +279,19 @@ function dragElement(elmnt) {
             var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
             var match = url.match(regExp);
             if (match && match[2].length == 11) {
-                openPlaybackPopup();
+                // openPlaybackPopup(true);
                 sendMessage("studio721,youtube," + url.replace("https://www.youtube.com/watch?v=", ""));
-                player.loadVideoById(match[2]);
-                document.getElementById("dialog-box").style.display = "none";
+                // player.loadVideoById(match[2]);
+                // document.getElementById("dialog-box").style.display = "none";
             }
         }
 
         function playVideo(id) {
-            document.getElementById("dialog-box").style.display = "none";
-            openPlaybackPopup();
+            // document.getElementById("dialog-box").style.display = "none";
+            // openPlaybackPopup(true);
+            // openPlaybackPopup(true);
             sendMessage("studio721,youtube," + id);
-            player.loadVideoById(id);
+            // player.loadVideoById(id);
         }
 
         function initialize() {
@@ -359,7 +326,7 @@ function dragElement(elmnt) {
             var newTime = player.getDuration() * (e.target.value / 100);
             sendMessage("studio721,timeline," + newTime);
             // Skip video to new time.
-            player.seekTo(newTime);
+            // player.seekTo(newTime);
         });
 
         function updateProgressBar() {
@@ -368,6 +335,9 @@ function dragElement(elmnt) {
         }
 
         function sendMessage(message = "") {
+            if(message.includes("studio721,youtube,")){
+                lastSentVideo = message.split(",")[2];
+            }
             const button = document.querySelectorAll("[aria-label='Send a message to everyone']")[1];
             const textArea = document.querySelector("textarea");
             let initialText = textArea.value;
@@ -389,13 +359,13 @@ function dragElement(elmnt) {
             var x = document.getElementById("play-pause");
             if (x.innerHTML === "play_arrow") {
                 sendMessage("studio721,play,")
-                player.playVideo();
-                x.innerHTML = "pause";
+                // player.playVideo();
+                // x.innerHTML = "pause";
             } else {
                 paused = true;
                 sendMessage("studio721,pause,")
-                player.pauseVideo();
-                x.innerHTML = "play_arrow";
+                // player.pauseVideo();
+                // x.innerHTML = "play_arrow";
             }
         });
 
@@ -491,6 +461,7 @@ function dragElement(elmnt) {
                 x.innerHTML = "pause";
             }
         }
+
         player = new YT.Player('video-placeholder', {
             width: 465,
             height: 300,
@@ -498,7 +469,7 @@ function dragElement(elmnt) {
                 color: 'white',
                 controls: 0
             },
-            events: { onReady: initialize, "onStateChange": onPlayerStateChange }
+            events: {onReady: initialize, "onStateChange": onPlayerStateChange}
         });
     }, 2000);
 });
