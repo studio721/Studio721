@@ -304,3 +304,17 @@ img {
 img:hover {
   transform: scale(1.02);
 }
+
+#mydiv {
+  position: absolute;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+}
+
+#resizeIcon {
+  cursor: move;
+  z-index: 10;
+}
+
+
