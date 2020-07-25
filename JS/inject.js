@@ -7,10 +7,9 @@ class MessageData {
     }
 }
 
-
 var player,
     time_update_interval = 0;
-    document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
+document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
     setTimeout(function () {
         console.log("JOINED")
         openChat();
@@ -38,24 +37,14 @@ var player,
                     } else if (message.service == "timeline") {
                         console.log("going to timestamp " + message.content)
                         player.seekTo(parseInt(message.content))
+                    } else if (message.service == "cancel") {
+                        cancelVideoPlayback();
                     }
                     //@info: chats that are sent at a similar time group together
                     chatElement.parentElement.children.length > 1 ? chatElement.remove() : chatElement.parentElement.parentElement.remove(); //remove a chat from the DOM depended on whether it is a single chat or a grouped chat
                 }
             }
         }, 500);
-
-        // document.querySelector(".EIlDfe").classList.add("T3F3Rd")
-        // document.querySelector(".fT3JUc").classList.add("LCXT6")
-        // document.querySelector(".EIlDfe").classList.add("T3F3Rd")
-
-
-        // studio721,youtube,cokCgWPRZPg
-        // studio721,youtube,9Zd9hURkmXM
-        //   studio721,pause,	
-        // studio721,play,	
-        // studio721,timeline,60
-
         function isAdmin() {
             // openChat();
             return document.body.contains(document.querySelector(".K74C9e"))
@@ -68,17 +57,18 @@ var player,
             // document.querySelector(".jByv5e").style.display = "none"
         }
 
-        function getName(){
+        function getName() {
             // openChat();
-                for(var element of document.querySelectorAll(".NkoVdd")){
-                    var name = element.innerHTML;
-                    if(name.includes("(You)")){
-                       return name.replace("(You)","");
-                    }
+            for (var element of document.querySelectorAll(".NkoVdd")) {
+                var name = element.innerHTML;
+                if (name.includes("(You)")) {
+                    return name.replace("(You)", "");
                 }
+            }
         }
 
         var popupGroup = document.createElement("div");
+        popupGroup.id = "mydiv";
         var videoPlaceholder = document.createElement("div");
         videoPlaceholder.id = "video-placeholder";
         videoPlaceholder.style.position = "absolute";
@@ -90,43 +80,11 @@ var player,
         videoPlaceholder.classList.add("video");
         popupGroup.append(videoPlaceholder);
 
-        var content = `  
-    
-                <div class="video-display" style="z-index:0; display:none;">
-                </div> `
-
         var controls = `
-                 <div class="video-display" style="z-index:0; display:none;">
+                 <div class="video-display"  style="z-index:0; display:none;">
                  </div>
-             
-                 <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
-                     <!--  change to none-->
-                     <div class="dialog-content animate-zoom" style="padding-top: 9px;">
-                         <img width=200px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
-                         <br>
-                         <br>
-                         <button style="margin-left:18px; margin-bottom: 5px;" class="tablink button byURL">By URL</button>
-                         <button class="tablink button searchBarBTN ">Search</button>
-                         <br>
-                         <br>
-                         <div id="Paste" class="container input-type">
-                             <input placeholder="Paste Youtube URL" value="https://www.youtube.com/watch?v=LkjvwtQfRw8"
-                                 class="textInput" type="text" id="vid-url" size="30">
-                             <input type="button" class="form-control action selectBTN selectButton" value="Select"><br>
-                         </div>
-                         <div id="Search" class="container input-type">
-                             <input placeholder="Search Youtube" class="textInput" type="text" id="vid-name" size="30">
-                             <input type="button" class="selectButton action searchBTN" value="Search">
-                             <br>
-                         </div>
-                         <div id="response"></div>
-                         <div class=" container light-grey padding">
-                             <button class="right button closeBTN" style="padding-top: 4px;"> Close</button>
-                         </div>
-                     </div>
-                 </div>
-             
-                 <div style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="controls">
+
+                 <div style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="  controls">
                      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
                      <div class="progress-bar">
                          <input type="range" class="slider" id="progress-bar" value="0"><br>
@@ -143,19 +101,53 @@ var player,
                          <i id="close-window" class="material-icons">close</i>
                          <i id="zoom-in" class="material-icons">zoom_in</i>
                          <i id="zoom-out" class="material-icons">zoom_out</i>
+                         <i id="resizeIcon" class="material-icons">open_with</i>
+
                      </div>
                  </div>
+                 
                `
+         $(popupGroup).append(controls);
         document.querySelector("body").prepend(popupGroup);
-        $(popupGroup).append(content);
-        $("body").append(controls);
+
+
+
+        var popup =    `
+        <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
+
+        <div class="dialog-content animate-zoom" style="padding-top: 9px;">
+            <img width=170px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
+            <br>
+            <br>
+            <button style="margin-left:18px; margin-bottom: 5px;" class="tablink button byURL">By URL</button>
+            <button class="tablink button searchBarBTN ">Search</button>
+            <br>
+            <br>
+            <div id="Paste" class="container input-type">
+                <input placeholder="Paste Youtube URL" value="https://www.youtube.com/watch?v=LkjvwtQfRw8"
+                    class="textInput" type="text" id="vid-url" size="30">
+                <input type="button" class="form-control action selectBTN selectButton" value="Select"><br>
+            </div>
+            <div id="Search" class="container input-type">
+                <input placeholder="Search Youtube" class="textInput" type="text" id="vid-name" size="30">
+                <input type="button" class="selectButton action searchBTN" value="Search">
+                <br>
+            </div>
+            <div id="response"></div>
+            <div class=" container light-grey padding">
+                <button class="right button closeBTN" style="padding-top: 4px;"> Close</button>
+            </div>
+        </div>
+    </div>`;
+        $("body").append(popup);
 
         document.querySelector(".closeBTN").addEventListener("click", function () {
-            document.getElementById('dialog-box').style.display = 'none'
             // closePlaybackPopup();
+            document.getElementById('dialog-box').style.display = 'none'
         });
 
         document.querySelector(".byURL").addEventListener("click", function () {
+
             openFunction(event, 'Paste')
         });
 
@@ -163,46 +155,106 @@ var player,
             openFunction(event, 'Search')
         });
 
+        document.querySelector("#close-window").addEventListener("click", function () {
+            if (confirm("Are you sure you want to cancel sharing?")) {
+                cancelVideoPlayback();
+            }
+        });
+
+
+
+
+
+        dragElement(document.getElementById("mydiv"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById("resizeIcon")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById("resizeIcon").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
+
+
+
         function openYoutubeDialog() {
-            document.querySelector("#video-placeholder").style.zIndex = 100;            
-            // openChat();
             document.querySelector("#dialog-box").style.display = "block";
         }
 
         function openPlaybackPopup() {
             document.querySelector("#video-placeholder").style.zIndex = 100;
-            // openChat();
             document.querySelector(".controls").style.display = "block";
             document.querySelector(".video-display").style.display = "block";
         }
 
+        function cancelVideoPlayback() {
+            player.stopVideo()
+            document.querySelector("#video-placeholder").style.zIndex = 0;
+            document.querySelector(".controls").style.display = "none";
+            document.querySelector(".video-display").style.display = "none";
+            sendMessage("studio721,cancel,")
+        }
         function closePlaybackPopup() {
             document.querySelector("#video-placeholder").style.zIndex = 0;
             document.querySelector("#dialog-box").style.display = "none";
             document.querySelector(".controls").style.display = "none";
         }
 
-        var youtubeDiv = document.createElement('div');
-        youtubeDiv.style.paddingRight = "15px";
-        youtubeDiv.classList.add("youtubeBtn");
+        // var youtubeDiv = document.createElement('div');
+        // youtubeDiv.style.paddingRight = "15px";
+        // youtubeDiv.classList.add("youtubeBtn");
+        // youtubeDiv.classList.add("z80M1");
 
-        var image = document.createElement("img");
-        image.src = "https://i.ibb.co/0QBkmSh/youtube.png";
-        image.style.width = "24px";
-        youtubeDiv.appendChild(image)
+        
 
-        var label = document.createElement("div");
-        label.innerHTML = "Youtube"
-        label.classList.add("I98jWb");
+        // var image = document.createElement("img");
+        // image.src = "https://i.ibb.co/0QBkmSh/youtube.png";
+        // image.style.width = "24px";
+        // youtubeDiv.appendChild(image)
 
-        youtubeDiv.appendChild(label);
-        var btmBar = document.querySelector(".LCXT6");
-        btmBar.insertBefore(youtubeDiv, btmBar.childNodes[2]);
+        // var label = document.createElement("div");
+        // label.innerHTML = "Youtube"
 
-        youtubeDiv.addEventListener('click', function () {
-            openYoutubeDialog();
-        });
+        // youtubeDiv.appendChild(label);
+    
+        // var btmBar = document.querySelector(".LCXT6");
+        // btmBar.insertBefore(youtubeDiv, btmBar.childNodes[2]);
 
+       
         document.querySelector(".searchBTN").addEventListener("click", function () {
             searchVideos(document.querySelector("#vid-name").value)
         });
@@ -210,6 +262,25 @@ var player,
         document.querySelector(".selectBTN").addEventListener("click", function () {
             buttonClicked()
         });
+
+
+        document.querySelector(".XMjwIe").addEventListener("click",function(){
+            setTimeout(function(){     
+               $(".JAPqpe").append(`
+                <div class="youtubeDiv" class="youtubeBtn">
+                <img src="https://i.ibb.co/0QBkmSh/youtube.png" width=24 style="display: inline-block; margin-right: 10px; margin-bottom: -7px; margin-left:15px;"> 
+                <p style="display: inline-block;">Youtube</p>
+              </div>`)
+
+              document.querySelector(".youtubeDiv").addEventListener('click', function () {
+                openYoutubeDialog();
+            });
+
+            
+        }, 200);
+
+        });
+            
 
         function buttonClicked() {
             var url = document.getElementById("vid-url").value;
@@ -356,21 +427,36 @@ var player,
                     success: function (data) {
                         $("#response").empty();
                         $.each(data.items, function (index, item) {
+                            console.log(item);
                             var title = item.snippet.title;
                             var id = item.id.videoId;
+                            var description = item.snippet.description;
                             var thumbnailImage = item.snippet.thumbnails.default.url;
+
+                            var date = new Date(Date.parse(item.snippet.publishTime.toString()));
+                            const monthNames = ["January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November", "December"
+                            ];
+
+                            var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
                             $("#response").append(`
-                            <br>
+
                             <div class="parent">
                             <div class="column">
                                 <p class='video-title'>${title}</p>
-                                <button class="button " id="playButton${id}" style="margin-left: 20px;">Play</button>
-                            </div>
+                                <p class='video-date'>${formattedDate}</p>
+                                <p class='video-description'>${description}</p>
+        
+                                <button class="button " id="playButton${id}" style="margin-left: 20px;">Share</button>
+                                <button url="https://www.youtube.com/watch?v=${id}" class="viewOnyoutube" id="viewOnyoutube${id}">View On Youtube</button>
+
+                                </div>
                             <div class="column">
                                 <img src='${thumbnailImage}' id="videoThumbnail${id}"
-                                    class="video-thumbnail" width='150px' height='97.5px'>
+                                    class="video-thumbnail" width='189.75px' height='122.95px'>
                             </div>
-                            </div>
+                        </div>
+                        <hr>
                             `)
 
                             document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function () {
@@ -379,6 +465,10 @@ var player,
                             document.querySelector(`#playButton${id}`).addEventListener("click", function () {
                                 playVideo(id);
                             });
+                            document.querySelector(`#viewOnyoutube${id}`).addEventListener("click", function () {
+                                window.open(document.querySelector(`#viewOnyoutube${id}`).getAttribute("url"), '_blank');
+                            });
+
                         });
                     },
                     error: function (response) {
