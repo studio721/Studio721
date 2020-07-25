@@ -10,7 +10,7 @@ class MessageData {
 
 var player,
     time_update_interval = 0;
-    document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
+document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
     setTimeout(function () {
         console.log("JOINED")
         openChat();
@@ -68,14 +68,14 @@ var player,
             // document.querySelector(".jByv5e").style.display = "none"
         }
 
-        function getName(){
+        function getName() {
             // openChat();
-                for(var element of document.querySelectorAll(".NkoVdd")){
-                    var name = element.innerHTML;
-                    if(name.includes("(You)")){
-                       return name.replace("(You)","");
-                    }
+            for (var element of document.querySelectorAll(".NkoVdd")) {
+                var name = element.innerHTML;
+                if (name.includes("(You)")) {
+                    return name.replace("(You)", "");
                 }
+            }
         }
 
         var popupGroup = document.createElement("div");
@@ -102,7 +102,7 @@ var player,
                  <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
                      <!--  change to none-->
                      <div class="dialog-content animate-zoom" style="padding-top: 9px;">
-                         <img width=200px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
+                         <img width=170px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
                          <br>
                          <br>
                          <button style="margin-left:18px; margin-bottom: 5px;" class="tablink button byURL">By URL</button>
@@ -164,7 +164,7 @@ var player,
         });
 
         function openYoutubeDialog() {
-            document.querySelector("#video-placeholder").style.zIndex = 100;            
+            document.querySelector("#video-placeholder").style.zIndex = 100;
             // openChat();
             document.querySelector("#dialog-box").style.display = "block";
         }
@@ -356,21 +356,44 @@ var player,
                     success: function (data) {
                         $("#response").empty();
                         $.each(data.items, function (index, item) {
+                            console.log(item);
                             var title = item.snippet.title;
                             var id = item.id.videoId;
+                            var description = item.snippet.description;
                             var thumbnailImage = item.snippet.thumbnails.default.url;
+
+                            var date = new Date(Date.parse(item.snippet.publishTime.toString()));
+
+                            const monthNames = ["January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November", "December"
+                            ];
+
+                            var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
                             $("#response").append(`
-                            <br>
+
                             <div class="parent">
                             <div class="column">
                                 <p class='video-title'>${title}</p>
-                                <button class="button " id="playButton${id}" style="margin-left: 20px;">Play</button>
-                            </div>
+                                <p class='video-date'>${formattedDate}</p>
+                                <p class='video-description'>${description}</p>
+        
+                                <button class="button " id="playButton${id}" style="margin-left: 20px;">Share</button>
+                                <button url="https://www.youtube.com/watch?v=${id}" class="viewOnyoutube" id="viewOnyoutube${id}">View On Youtube</button>
+
+                                </div>
                             <div class="column">
                                 <img src='${thumbnailImage}' id="videoThumbnail${id}"
-                                    class="video-thumbnail" width='150px' height='97.5px'>
+                                    class="video-thumbnail" width='189.75px' height='122.95px'>
                             </div>
-                            </div>
+                        </div>
+                        <hr>
+                        
+                  
+    
+
+
+
+
                             `)
 
                             document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function () {
@@ -379,6 +402,10 @@ var player,
                             document.querySelector(`#playButton${id}`).addEventListener("click", function () {
                                 playVideo(id);
                             });
+                            document.querySelector(`#viewOnyoutube${id}`).addEventListener("click", function () {
+                                window.open(document.querySelector(`#viewOnyoutube${id}`).getAttribute("url"), '_blank');       
+                            });
+
                         });
                     },
                     error: function (response) {
