@@ -2,8 +2,12 @@
   --display-status: none;
 }
 
+body {
+  width: 700px;
+  height: 330px;
+}
 
-
+/*input fields*/
 .textInput {
   color: black;
   width: 400px;
@@ -14,11 +18,9 @@
   transition: ease-in-out .3s;
 }
 
-
 .textInput:focus {
   border-bottom-color: #FF0000;
 }
-
 
 input:focus {
   outline: none;
@@ -36,7 +38,6 @@ input[type="range"] {
 
 .video-title {
   text-align: center;
-
 }
 
 .video-thumbnail {
@@ -136,19 +137,16 @@ input[type="range"] {
   max-height: 95vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
   padding: 0;
   border-radius: 5px;
   outline: 0;
   max-width: 750px;
 }
-
+/*hides scroll bar*/
 .dialog-content::-webkit-scrollbar {
   display: none;
 }
-
 
 .container:after,
 .container:before,
@@ -184,19 +182,12 @@ input[type="range"] {
   background-color: #f1f1f1 !important;
 }
 
-
-
 .padding {
   padding: 8px 16px !important;
 }
 
 .right {
   float: right !important;
-}
-
-body {
-  width: 700px;
-  height: 330px;
 }
 
 .parent {
@@ -223,14 +214,10 @@ body {
   margin-bottom: -10px;
 }
 
-
 .closeBTN {
-
   position: -webkit-sticky;
   position: sticky;
   bottom: 0;
-
-
 }
 
 .video-description {
@@ -283,11 +270,9 @@ body {
   cursor: pointer;
 }
 
-
 .example::-webkit-scrollbar {
   display: none;
 }
-
 
 hr {
   margin-top: 20px;
@@ -305,7 +290,7 @@ img:hover {
   transform: scale(1.02);
 }
 
-#mydiv {
+#playbackGroup {
   position: absolute;
   background-color: #f1f1f1;
   border: 1px solid #d3d3d3;
