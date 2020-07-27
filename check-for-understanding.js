@@ -44,8 +44,9 @@ function vote(choice) {
 function barPercentage(node, tally) {
   var choice = node.dataset.choice;
   
-  if (tally[choice])
+  if (tally[choice]) {
     return tally[choice]/tally["total"] * 100;
+  }  
   return 0;
 }
 
@@ -56,7 +57,6 @@ function renderBars() {
     var percentage = barPercentage(bars[i], tally);
     console.log(percentage)
     bars[i].style.height = percentage.toString() + "%";
-
   }
 }
 
