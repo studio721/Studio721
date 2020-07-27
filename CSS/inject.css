@@ -2,11 +2,6 @@
   --display-status: none;
 }
 
-body {
-  width: 700px;
-  height: 330px;
-}
-
 /*input fields*/
 .textInput {
   color: black;
@@ -143,10 +138,10 @@ input[type="range"] {
   outline: 0;
   max-width: 750px;
 }
-/*hides scroll bar*/
+/* hides scroll bar
 .dialog-content::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .container:after,
 .container:before,

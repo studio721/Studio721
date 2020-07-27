@@ -11,9 +11,16 @@ var lastSentVideo = "";
 var player,
     time_update_interval = 0;
 
+//important class names
+var joinBTNClass = "l4V7wb"; //button that is clicked to join the meets call
+var addPeopleClass = "K74C9e"; //"add person" label in the chat/people menu that signifies that the user can add people 
+var meetingDetailsClass = "anXpBf"; //row of elements inside the meeting details tab for "People" and "Chat" tabs
+var buttonBarClass = "fT3JUc"; //bottom bar of the meets call that sometimes disappears
+var personNameClass = "NkoVdd"; //text label of name of person(s) inside meeting, viewable inside the meeting details -> people 
+
 function showBottomBar(){
-    if(document.querySelectorAll(".fT3JUc").length > 0){
-        document.querySelector(".fT3JUc").classList.add("LCXT6");
+    if(document.querySelectorAll("." + buttonBarClass).length > 0){
+        document.querySelector("." + buttonBarClass).classList.add("LCXT6");
     }
 }
 
@@ -23,7 +30,8 @@ setInterval(function(){
     showBottomBar()
 }, 1000);
 
-document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
+
+document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", function () {
     setTimeout(function () {
         openChat(); //open the chat
         setInterval(function () {
@@ -59,16 +67,16 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         }, 500);
 
         function isAdmin() { //whether the person is the administrator of the meets call
-            return document.body.contains(document.querySelector(".K74C9e"))
+            return document.body.contains(document.querySelector("." + addPeopleClass))
         }
         function openChat() { //open chat
-            if (document.querySelectorAll(".anXpBf").length == 0) {
+            if (document.querySelectorAll("." + meetingDetailsClass).length == 0) {
                 document.querySelectorAll("[data-tooltip]")[4].click()
             }
         }
 
         function getName() { //get the name of the person
-            for (var element of document.querySelectorAll(".NkoVdd")) {
+            for (var element of document.querySelectorAll("." + personNameClass)) {
                 var name = element.innerHTML;
                 if (name.includes("(You)")) {
                     return name.replace("(You)", "");
