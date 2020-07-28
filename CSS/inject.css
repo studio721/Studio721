@@ -2,8 +2,6 @@
   --display-status: none;
 }
 
-/*input fields*/
-
 .textInput {
   color: black;
   width: 400px;
@@ -139,10 +137,6 @@ input[type="range"] {
   outline: 0;
   max-width: 750px;
 }
-/* hides scroll bar
-.dialog-content::-webkit-scrollbar {
-  display: none;
-} */
 
 .container:after,
 .container:before,
