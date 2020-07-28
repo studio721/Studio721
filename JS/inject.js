@@ -15,7 +15,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         openChat();
         setInterval(function () {
             const chatElements = document.querySelectorAll("[data-message-text]");
-            // element = document.querySelector('textarea'); 
+            // element = document.querySelector('textarea');
             for (chatElement of chatElements) {
                 let chatContent = chatElement.innerHTML;
                 if (chatContent.includes("studio721")) {
@@ -39,7 +39,12 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                         player.seekTo(parseInt(message.content))
                     } else if (message.service == "cancel") {
                         cancelVideoPlayback();
+                    } else if (message.service == "check") {
+                      console.log("displaying viewer check for understanding")
+                      displayCheckForUnderstanding();
+
                     }
+
                     //@info: chats that are sent at a similar time group together
                     chatElement.parentElement.children.length > 1 ? chatElement.remove() : chatElement.parentElement.parentElement.remove(); //remove a chat from the DOM depended on whether it is a single chat or a grouped chat
                 }
@@ -80,10 +85,10 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         popupGroup.append(videoPlaceholder);
 
         var controls = `
-    
+
                  <div class="video-display"  style="z-index:0; display:none;">
                  </div>
-             
+
                  <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
                      <!--  change to none-->
                      <div class="dialog-content animate-zoom" style="padding-top: 9px;">
@@ -110,7 +115,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                          </div>
                      </div>
                  </div>
-             
+
                  <div id=""  style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="controls">
                      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
                      <div class="progress-bar">
@@ -123,7 +128,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                      <div class="time-display" style="position: relative; top: -6px;">
                          <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
                      </div>
-             
+
                      <div class=" right toggle-controls" style="margin-top: 10px;">
                          <i id="close-window" class="material-icons">close</i>
                          <i id="zoom-in" class="material-icons">zoom_in</i>
@@ -372,7 +377,7 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                                 <p class='video-title'>${title}</p>
                                 <p class='video-date'>${formattedDate}</p>
                                 <p class='video-description'>${description}</p>
-        
+
                                 <button class="button " id="playButton${id}" style="margin-left: 20px;">Share</button>
                                 <button url="https://www.youtube.com/watch?v=${id}" class="viewOnyoutube" id="viewOnyoutube${id}">View On Youtube</button>
 
@@ -427,10 +432,49 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
             events: { onReady: initialize, "onStateChange": onPlayerStateChange }
         });
     }, 2000);
+
+    var viewerControls = `
+      <div id="viewer-dialog" class="modal">
+        <div class="modal-content">
+          <span class="close-viewer">&times;</span>
+          <h2>Check for Understanding</h2>
+          <h3>Does this make sense?</h3>
+
+        <div class="choice">
+            <div class="label">
+                <p>Yes</p>
+                <button data-choice="1" class="material-icons">thumb_up</button>
+            </div>
+        </div>
+
+        <div class="choice">
+            <div class="label">
+                <p>No</p>
+                <button data-choice="2" class="material-icons">thumb_down</button>
+            </div>
+        </div>
+    </div>
+</div>
+       `
+
+       document.getElementById("viewer-button").onclick = function () {
+            document.getElementById("viewer-dialog").style.display = "block";
+       }
+
+       document.getElementsByClassName("close-viewer")[0].onclick = function () {
+             document.getElementById("viewer-dialog").style.display = "none";
+       }
+
+       function displayCheckForUnderstanding() {
+            document.getElementById("viewer-dialog").style.display = "block";
+            if (document.querySelector(".choice").value == 1) {
+              sendMessage("studio721,understanding,");
+              return document.querySelector(".choice").value;
+            } else {
+              sendMessage("studio721,understanding,");
+              return document.querySelector(".choice").value;
+            }
+
+       }
+
 });
-
-
-
-
-
-
