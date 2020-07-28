@@ -1,43 +1,63 @@
 class MessageData {
     constructor(fullContent = "a,b,c") { //signal, service, content
         var fullContent = fullContent.split(",");
-        this.signal = fullContent[0];
+        this.signal = fullContent[0]; //signal should be "studio721" to signify the message's purpose
         this.service = fullContent[1];
         this.content = fullContent[2];
     }
 }
 
+var lastSentVideo = "";
 var player,
     time_update_interval = 0;
-document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () {
+
+//important class names
+var joinBTNClass = "l4V7wb"; //button that is clicked to join the meets call
+var addPeopleClass = "K74C9e"; //"add person" label in the chat/people menu that signifies that the user can add people 
+var meetingDetailsClass = "anXpBf"; //row of elements inside the meeting details tab for "People" and "Chat" tabs
+var buttonBarClass = "fT3JUc"; //bottom bar of the meets call that sometimes disappears
+var personNameClass = "NkoVdd"; //text label of name of person(s) inside meeting, viewable inside the meeting details -> people 
+
+function showBottomBar(){
+    if(document.querySelectorAll("." + buttonBarClass).length > 0){
+        document.querySelector("." + buttonBarClass).classList.add("LCXT6");
+    }
+}
+
+showBottomBar();
+
+setInterval(function(){
+    showBottomBar()
+}, 1000);
+
+
+document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", function () {
     setTimeout(function () {
-        console.log("JOINED")
-        openChat();
+        openChat(); //open the chat
         setInterval(function () {
             const chatElements = document.querySelectorAll("[data-message-text]");
-            // element = document.querySelector('textarea'); 
-            for (chatElement of chatElements) {
+            for (chatElement of chatElements) { //for all the chat messages
                 let chatContent = chatElement.innerHTML;
                 if (chatContent.includes("studio721")) {
                     var message = new MessageData(chatContent)
                     var x = document.getElementById("play-pause");
-                    if (message.service == "youtube") {
+                    if (message.service == "youtube"){ //play a YT video
                         console.log("playing video with id " + message.content)
                         document.getElementById("dialog-box").style.display = "none";
-                        openPlaybackPopup();
+                        openPlaybackPopup(lastSentVideo == message.content);
                         player.loadVideoById(message.content);
-                    } else if (message.service == "pause") {
+                    } else if (message.service == "pause") { //pause YT video
                         console.log("pausing video")
                         x.innerHTML = "play_arrow";
                         player.pauseVideo();
-                    } else if (message.service == "play") {
+                    } else if (message.service == "play") { //play YT video
                         console.log("playing video")
                         x.innerHTML = "pause";
                         player.playVideo();
-                    } else if (message.service == "timeline") {
+                    } else if (message.service == "timeline") { //go to timestamp in video
                         console.log("going to timestamp " + message.content)
                         player.seekTo(parseInt(message.content))
-                    } else if (message.service == "cancel") {
+                    } else if (message.service == "cancel") { //cancel showing the video
                         cancelVideoPlayback();
                     }
                     //@info: chats that are sent at a similar time group together
@@ -45,21 +65,18 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                 }
             }
         }, 500);
-        function isAdmin() {
-            // openChat();
-            return document.body.contains(document.querySelector(".K74C9e"))
-        }
 
-        function openChat() {
-            if (document.querySelectorAll(".anXpBf").length == 0) {
+        function isAdmin() { //whether the person is the administrator of the meets call
+            return document.body.contains(document.querySelector("." + addPeopleClass))
+        }
+        function openChat() { //open chat
+            if (document.querySelectorAll("." + meetingDetailsClass).length == 0) {
                 document.querySelectorAll("[data-tooltip]")[4].click()
             }
-            // document.querySelector(".jByv5e").style.display = "none"
         }
 
-        function getName() {
-            // openChat();
-            for (var element of document.querySelectorAll(".NkoVdd")) {
+        function getName() { //get the name of the person
+            for (var element of document.querySelectorAll("." + personNameClass)) {
                 var name = element.innerHTML;
                 if (name.includes("(You)")) {
                     return name.replace("(You)", "");
@@ -67,81 +84,67 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
             }
         }
 
-        var popupGroup = document.createElement("div");
-        var videoPlaceholder = document.createElement("div");
-        videoPlaceholder.id = "video-placeholder";
-        videoPlaceholder.style.position = "absolute";
-        videoPlaceholder.style.left = "0px";
-        videoPlaceholder.style.top = "10px";
-        videoPlaceholder.style.height = "300px";
-        videoPlaceholder.style.width = "465px";
-        videoPlaceholder.style.zIndex = 0;
-        videoPlaceholder.classList.add("video");
-        popupGroup.append(videoPlaceholder);
+        var popupGroup = `
+        <div id="playbackGroup">
+           <div id="video-placeholder" style="position:absolute; left:0px; top:10px; height:300px; width:465px; z-index: 0;" class="video">
+           </div>
+           <div class="video-display"  style="z-index:0; display:none;"></div>
+           <div style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="  controls">
+              <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+              <div class="progress-bar">
+                 <input type="range" class="slider" id="progress-bar" value="0"><br>
+              </div>
+              <div class="toggle-controls" style="margin-top: 10px;">
+                 <i id="play-pause" class="material-icons">pause</i>
+                 <i id="mute-toggle" class="material-icons">volume_up</i>
+              </div>
+              <div class="time-display" style="position: relative; top: -6px;">
+                 <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
+              </div>
+              <div class=" right toggle-controls" style="margin-top: 10px;">
+                 <i id="close-window" class="material-icons">close</i>
+                 <i id="zoom-in" class="material-icons">zoom_in</i>
+                 <i id="zoom-out" class="material-icons">zoom_out</i>
+                 <i id="resizeIcon" class="material-icons">open_with</i>
+              </div>
+           </div>
+        </div>`
 
-        var controls = `
-    
-                 <div class="video-display"  style="z-index:0; display:none;">
-                 </div>
-             
-                 <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
-                     <!--  change to none-->
-                     <div class="dialog-content animate-zoom" style="padding-top: 9px;">
-                         <img width=170px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
-                         <br>
-                         <br>
-                         <button style="margin-left:18px; margin-bottom: 5px;" class="tablink button byURL">By URL</button>
-                         <button class="tablink button searchBarBTN ">Search</button>
-                         <br>
-                         <br>
-                         <div id="Paste" class="container input-type">
-                             <input placeholder="Paste Youtube URL" value="https://www.youtube.com/watch?v=LkjvwtQfRw8"
-                                 class="textInput" type="text" id="vid-url" size="30">
-                             <input type="button" class="form-control action selectBTN selectButton" value="Select"><br>
-                         </div>
-                         <div id="Search" class="container input-type">
-                             <input placeholder="Search Youtube" class="textInput" type="text" id="vid-name" size="30">
-                             <input type="button" class="selectButton action searchBTN" value="Search">
-                             <br>
-                         </div>
-                         <div id="response"></div>
-                         <div class=" container light-grey padding">
-                             <button class="right button closeBTN" style="padding-top: 4px;"> Close</button>
-                         </div>
-                     </div>
-                 </div>
-             
-                 <div id=""  style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="controls">
-                     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-                     <div class="progress-bar">
-                         <input type="range" class="slider" id="progress-bar" value="0"><br>
-                     </div>
-                     <div class="toggle-controls" style="margin-top: 10px;">
-                         <i id="play-pause" class="material-icons">pause</i>
-                         <i id="mute-toggle" class="material-icons">volume_up</i>
-                     </div>
-                     <div class="time-display" style="position: relative; top: -6px;">
-                         <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
-                     </div>
-             
-                     <div class=" right toggle-controls" style="margin-top: 10px;">
-                         <i id="close-window" class="material-icons">close</i>
-                         <i id="zoom-in" class="material-icons">zoom_in</i>
-                         <i id="zoom-out" class="material-icons">zoom_out</i>
-                     </div>
-                 </div>
-               `
-        document.querySelector("body").prepend(popupGroup);
-        // $(popupGroup).append(content);
-        $("body").append(controls);
+        $("body").prepend(popupGroup);
 
+        var popup = `
+        <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
+            <div class="dialog-content animate-zoom" style="padding-top: 9px;">
+                <img width=170px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
+                <br>
+                <br>
+                <button style="margin-left:18px; margin-bottom: 5px;" class="tablink button byURL">By URL</button>
+                <button class="tablink button searchBarBTN ">Search</button>
+                <br>
+                <br>
+                <div id="Paste" class="container input-type">
+                    <input placeholder="Paste Youtube URL" value="https://www.youtube.com/watch?v=LkjvwtQfRw8"
+                        class="textInput" type="text" id="vid-url" size="30">
+                    <input type="button" class="form-control action selectBTN selectButton" value="Select"><br>
+                </div>
+                <div id="Search" class="container input-type">
+                    <input placeholder="Search Youtube" class="textInput" type="text" id="vid-name" size="30">
+                    <input type="button" class="selectButton action searchBTN" value="Search">
+                    <br>
+                </div>
+                <div id="response"></div>
+                <div class=" container light-grey padding">
+                    <button class="right button closeBTN" style="padding-top: 4px;"> Close</button>
+                </div>
+            </div>
+        </div>`;
+
+        $("body").append(popup);
         document.querySelector(".closeBTN").addEventListener("click", function () {
-            // closePlaybackPopup();
             document.getElementById('dialog-box').style.display = 'none'
         });
 
         document.querySelector(".byURL").addEventListener("click", function () {
-
             openFunction(event, 'Paste')
         });
 
@@ -154,57 +157,80 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                 cancelVideoPlayback();
             }
         });
+        dragElement(document.getElementById("playbackGroup"));
 
-        function openYoutubeDialog() {
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById("resizeIcon")) {
+                document.getElementById("resizeIcon").onmousedown = dragMouseDown;
+            } else {
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+        function openYoutubeDialog() { //show just the dialog to search/select for a video
             document.querySelector("#dialog-box").style.display = "block";
         }
 
-        function openPlaybackPopup() {
+        function openPlaybackPopup(showControls=false) { //open the youtube view and controls (optional)
             document.querySelector("#video-placeholder").style.zIndex = 100;
-            document.querySelector(".controls").style.display = "block";
+            document.querySelector(".controls").style.display = (showControls ? "block": "none");
             document.querySelector(".video-display").style.display = "block";
         }
 
-        function cancelVideoPlayback() {
+        function cancelVideoPlayback() { //cancel the video shown to all viewers
             player.stopVideo()
             document.querySelector("#video-placeholder").style.zIndex = 0;
             document.querySelector(".controls").style.display = "none";
             document.querySelector(".video-display").style.display = "none";
             sendMessage("studio721,cancel,")
         }
-        function closePlaybackPopup() {
-            document.querySelector("#video-placeholder").style.zIndex = 0;
-            document.querySelector("#dialog-box").style.display = "none";
-            document.querySelector(".controls").style.display = "none";
-        }
 
-        var youtubeDiv = document.createElement('div');
-        youtubeDiv.style.paddingRight = "15px";
-        youtubeDiv.classList.add("youtubeBtn");
-
-        var image = document.createElement("img");
-        image.src = "https://i.ibb.co/0QBkmSh/youtube.png";
-        image.style.width = "24px";
-        youtubeDiv.appendChild(image)
-
-        var label = document.createElement("div");
-        label.innerHTML = "Youtube"
-        label.classList.add("I98jWb");
-
-        youtubeDiv.appendChild(label);
-        var btmBar = document.querySelector(".LCXT6");
-        btmBar.insertBefore(youtubeDiv, btmBar.childNodes[2]);
-
-        youtubeDiv.addEventListener('click', function () {
-            openYoutubeDialog();
-        });
-
-        document.querySelector(".searchBTN").addEventListener("click", function () {
+        document.querySelector(".searchBTN").addEventListener("click", function () { //listen for the search button in popup
             searchVideos(document.querySelector("#vid-name").value)
         });
 
         document.querySelector(".selectBTN").addEventListener("click", function () {
             buttonClicked()
+        });
+
+
+        document.querySelector(".XMjwIe").addEventListener("click", function () {
+            setTimeout(function () {
+                $(".JAPqpe").append(`
+                <div class="youtubeDiv" class="youtubeBtn">
+                <img src="https://i.ibb.co/0QBkmSh/youtube.png" width=24 style="display: inline-block; margin-right: 10px; margin-bottom: -7px; margin-left:15px;"> 
+                <p style="display: inline-block;">Youtube</p>
+              </div>`)
+
+                document.querySelector(".youtubeDiv").addEventListener('click', function () {
+                    openYoutubeDialog();
+                });
+            }, 200);
         });
 
         function buttonClicked() {
@@ -232,38 +258,29 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
             return minutes + ":" + seconds;
         }
 
-        function validateYouTubeUrl(url) {
-            console.log("validating url " + url)
-            //checks if valid YouTube url
+        function validateYouTubeUrl(url) {    //checks if valid YouTube url
             var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
             var match = url.match(regExp);
             if (match && match[2].length == 11) {
-                openPlaybackPopup();
                 sendMessage("studio721,youtube," + url.replace("https://www.youtube.com/watch?v=", ""));
-                player.loadVideoById(match[2]);
-                document.getElementById("dialog-box").style.display = "none";
             }
         }
 
-        function playVideo(id) {
-            document.getElementById("dialog-box").style.display = "none";
-            openPlaybackPopup();
+        function playVideo(id) { //play a video by its Youtube ID
             sendMessage("studio721,youtube," + id);
-            player.loadVideoById(id);
         }
 
         function initialize() {
             updateTimerDisplay();
             updateProgressBar();
-            clearInterval(time_update_interval);
-            //updates progress bar every second
+            clearInterval(time_update_interval); //updates progress bar every second
             time_update_interval = setInterval(function () {
                 updateTimerDisplay();
                 updateProgressBar();
             }, 1000)
         }
 
-        function openFunction(evt, inputType) {
+        function openFunction(evt, inputType) { //select videos by either URL or by search
             var i, x, tablinks;
             x = document.getElementsByClassName("input-type");
             for (i = 0; i < x.length; i++) {
@@ -278,13 +295,9 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         }
 
         //Progress Bar
-        $('#progress-bar').on('mouseup touchend', function (e) {
-            // Calculate the new time for the video.
-            // new time in seconds = total duration in seconds * ( value of range input / 100 )
+        $('#progress-bar').on('mouseup touchend', function (e) { // Calculate the new time for the video.
             var newTime = player.getDuration() * (e.target.value / 100);
             sendMessage("studio721,timeline," + newTime);
-            // Skip video to new time.
-            player.seekTo(newTime);
         });
 
         function updateProgressBar() {
@@ -293,6 +306,9 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         }
 
         function sendMessage(message = "") {
+            if(message.includes("studio721,youtube,")){
+                lastSentVideo = message.split(",")[2];
+            }
             const button = document.querySelectorAll("[aria-label='Send a message to everyone']")[1];
             const textArea = document.querySelector("textarea");
             let initialText = textArea.value;
@@ -314,13 +330,13 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
             var x = document.getElementById("play-pause");
             if (x.innerHTML === "play_arrow") {
                 sendMessage("studio721,play,")
-                player.playVideo();
-                x.innerHTML = "pause";
+                // player.playVideo();
+                // x.innerHTML = "pause";
             } else {
                 paused = true;
                 sendMessage("studio721,pause,")
-                player.pauseVideo();
-                x.innerHTML = "play_arrow";
+                // player.pauseVideo();
+                // x.innerHTML = "play_arrow";
             }
         });
 
@@ -336,16 +352,16 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
             }
         });
 
-        function searchVideos(string) {
+        function searchVideos(string) { //search for videos given a search string
             if (string.length > 1) {
                 $.ajax({
                     type: 'GET',
                     url: 'https://www.googleapis.com/youtube/v3/search',
                     data: {
-                        key: 'AIzaSyDk2FGm_W_j3-7flWUWqkugwa1fPhJ8cPg',
+                        key: 'AIzaSyCm4D3nwozwzixnDmDGU7Wj-8x0LSlyZ3g',
                         q: string,
                         part: 'snippet',
-                        maxResults: 5,
+                        maxResults: 10,
                         type: 'video',
                         videoEmbeddable: true,
                     },
@@ -359,7 +375,6 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                             var thumbnailImage = item.snippet.thumbnails.default.url;
 
                             var date = new Date(Date.parse(item.snippet.publishTime.toString()));
-
                             const monthNames = ["January", "February", "March", "April", "May", "June",
                                 "July", "August", "September", "October", "November", "December"
                             ];
@@ -367,23 +382,20 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                             var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
                             $("#response").append(`
 
-                            <div class="parent">
-                            <div class="column">
-                                <p class='video-title'>${title}</p>
-                                <p class='video-date'>${formattedDate}</p>
-                                <p class='video-description'>${description}</p>
-        
-                                <button class="button " id="playButton${id}" style="margin-left: 20px;">Share</button>
-                                <button url="https://www.youtube.com/watch?v=${id}" class="viewOnyoutube" id="viewOnyoutube${id}">View On Youtube</button>
-
-                                </div>
-                            <div class="column">
-                                <img src='${thumbnailImage}' id="videoThumbnail${id}"
-                                    class="video-thumbnail" width='189.75px' height='122.95px'>
+                          <div class="parent">
+                               <div class="column">
+                                  <p class='video-title'>${title}</p>
+                                  <p class='video-date'>${formattedDate}</p>
+                                  <p class='video-description'>${description}</p>
+                                  <button class="button " id="playButton${id}" style="margin-left: 20px;">Share</button>
+                                  <button url="https://www.youtube.com/watch?v=${id}" class="viewOnyoutube" id="viewOnyoutube${id}">View On Youtube</button>
+                               </div>
+                               <div class="column">
+                                  <img src='${thumbnailImage}' id="videoThumbnail${id}"
+                                     class="video-thumbnail" width='189.75px' height='122.95px'>
+                               </div>
                             </div>
-                        </div>
-                        <hr>
-                            `)
+                            <hr>`)
 
                             document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function () {
                                 playVideo(id);
@@ -394,7 +406,6 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                             document.querySelector(`#viewOnyoutube${id}`).addEventListener("click", function () {
                                 window.open(document.querySelector(`#viewOnyoutube${id}`).getAttribute("url"), '_blank');
                             });
-
                         });
                     },
                     error: function (response) {
@@ -407,7 +418,6 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
         function onPlayerStateChange(event) {
             console.log(event.data);
             var x = document.getElementById("play-pause");
-            // youtube fires 2xPAUSED, 1xPLAYING on seek
             if (event.data == YT.PlayerState.PAUSED) {
                 sendMessage("studio721,pause,")
                 x.innerHTML = "play_arrow";
@@ -417,20 +427,18 @@ document.querySelectorAll(".l4V7wb")[0].addEventListener("mouseup", function () 
                 x.innerHTML = "pause";
             }
         }
-        player = new YT.Player('video-placeholder', {
+
+        player = new YT.Player('video-placeholder', { //create Youtube Player
             width: 465,
             height: 300,
             playerVars: {
                 color: 'white',
                 controls: 0
             },
-            events: { onReady: initialize, "onStateChange": onPlayerStateChange }
+            events: {onReady: initialize, "onStateChange": onPlayerStateChange}
         });
     }, 2000);
 });
-
-
-
 
 
 
