@@ -582,7 +582,7 @@ label.innerHTML = "Check for Understanding";
 label.classList.add("I9jWb");
 
 understandingDiv.appendChild(label);
-var btmBar = document.querySelector(".LCXT6");
+var btmBar = document.querySelectorAll("." + buttonBarClass);
 btmBar.insertBefore(understandingDiv, btmBar.childNodes[2]);
 
 understandingDiv.addEventListener("click", function() {
