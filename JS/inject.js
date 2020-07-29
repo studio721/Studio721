@@ -18,15 +18,15 @@ var meetingDetailsClass = "anXpBf"; //row of elements inside the meeting details
 var buttonBarClass = "fT3JUc"; //bottom bar of the meets call that sometimes disappears
 var personNameClass = "NkoVdd"; //text label of name of person(s) inside meeting, viewable inside the meeting details -> people 
 
-function showBottomBar(){
-    if(document.querySelectorAll("." + buttonBarClass).length > 0){
+function showBottomBar() {
+    if (document.querySelectorAll("." + buttonBarClass).length > 0) {
         document.querySelector("." + buttonBarClass).classList.add("LCXT6");
     }
 }
 
 showBottomBar();
 
-setInterval(function(){
+setInterval(function () {
     showBottomBar()
 }, 1000);
 
@@ -41,7 +41,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 if (chatContent.includes("studio721")) {
                     var message = new MessageData(chatContent)
                     var x = document.getElementById("play-pause");
-                    if (message.service == "youtube"){ //play a YT video
+                    if (message.service == "youtube") { //play a YT video
                         console.log("playing video with id " + message.content)
                         document.getElementById("dialog-box").style.display = "none";
                         openPlaybackPopup(lastSentVideo == message.content);
@@ -196,9 +196,9 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             document.querySelector("#dialog-box").style.display = "block";
         }
 
-        function openPlaybackPopup(showControls=false) { //open the youtube view and controls (optional)
+        function openPlaybackPopup(showControls = false) { //open the youtube view and controls (optional)
             document.querySelector("#video-placeholder").style.zIndex = 100;
-            document.querySelector(".controls").style.display = (showControls ? "block": "none");
+            document.querySelector(".controls").style.display = (showControls ? "block" : "none");
             document.querySelector(".video-display").style.display = "block";
         }
 
@@ -306,7 +306,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
         }
 
         function sendMessage(message = "") {
-            if(message.includes("studio721,youtube,")){
+            if (message.includes("studio721,youtube,")) {
                 lastSentVideo = message.split(",")[2];
             }
             const button = document.querySelectorAll("[aria-label='Send a message to everyone']")[1];
@@ -381,7 +381,6 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
 
                             var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
                             $("#response").append(`
-
                           <div class="parent">
                                <div class="column">
                                   <p class='video-title'>${title}</p>
@@ -435,10 +434,64 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 color: 'white',
                 controls: 0
             },
-            events: {onReady: initialize, "onStateChange": onPlayerStateChange}
+            events: { onReady: initialize, "onStateChange": onPlayerStateChange }
         });
     }, 2000);
 });
 
+var presenterCFU = `    
+    <div id="presenter-dialog" class="modal">
 
+        <div class="modal-content">
+            <span class="close-presenter">&times;</span>
+            <h2>Check for Understanding</h2>
+            <h3 id="responses">Responses: 0</h3>
 
+            <div class="choice">
+                <div class="result">
+                    <p class="label" id="percentage1">0%</p>
+                    <div class="bar" data-choice="1"></div>
+                    <p id="tally1">0</p>
+                    <h4>Yes</h4>
+                </div>
+            </div>
+
+            <div class="choice">
+                <div class="result">
+                    <p class="label" id="percentage2">0%</p>
+                    <div class="bar" data-choice="2"></div>
+                    <p id="tally2">0</p>
+                    <h4>No</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+`
+var understandingDiv = document.createElement('div');
+understandingDiv.style.paddingRight = "15px";
+understandingDiv.classList.add("understandingBtn");
+
+var image = document.createElement("img");
+image.src = "https://i.ibb.co/qR1fsJk/checkmark.png";
+image.style.width = "24px";
+understandingDiv.appendChild(image);
+
+var label = document.createElement('div');
+label.innerHTML = "Check for Understanding";
+label.classList.add("I9jWb");
+
+understandingDiv.appendChild(label);
+var btmBar = document.querySelector(".LCXT6");
+btmBar.insertBefore(understandingDiv, btmBar.childNodes[2]);
+
+understandingDiv.addEventListener("click", function() {
+    openUnderstandingDialog();
+});
+
+function openUnderstandingDialog() {
+    document.querySelector("#presenter-dialog").style.display = "block";
+}
+
+document.getElementsByClassName("close-presenter")[0].onclick = function () {
+    document.getElementById("presenter-dialog").style.display = "none";
+}
