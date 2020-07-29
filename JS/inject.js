@@ -59,7 +59,12 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                         player.seekTo(parseInt(message.content))
                     } else if (message.service == "cancel") { //cancel showing the video
                         cancelVideoPlayback();
+                    } else if (message.service == "check") {
+                      console.log("displaying viewer check for understanding")
+                      displayCheckForUnderstanding();
+
                     }
+
                     //@info: chats that are sent at a similar time group together
                     chatElement.parentElement.children.length > 1 ? chatElement.remove() : chatElement.parentElement.parentElement.remove(); //remove a chat from the DOM depended on whether it is a single chat or a grouped chat
                 }
@@ -83,6 +88,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 }
             }
         }
+
 
         var popupGroup = `
         <div id="playbackGroup">
@@ -140,6 +146,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
         </div>`;
 
         $("body").append(popup);
+
         document.querySelector(".closeBTN").addEventListener("click", function () {
             document.getElementById('dialog-box').style.display = 'none'
         });
@@ -382,6 +389,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                             var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
                             $("#response").append(`
 
+
                           <div class="parent">
                                <div class="column">
                                   <p class='video-title'>${title}</p>
@@ -438,7 +446,51 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             events: {onReady: initialize, "onStateChange": onPlayerStateChange}
         });
     }, 2000);
+
+
+    var viewerControls = `
+      <div id="viewer-dialog" class="modal">
+        <div class="modal-content">
+          <span class="close-viewer">&times;</span>
+          <h2>Check for Understanding</h2>
+          <h3>Does this make sense?</h3>
+
+        <div class="choice">
+            <div class="label">
+                <p>Yes</p>
+                <button data-choice="1" class="material-icons">thumb_up</button>
+            </div>
+        </div>
+
+        <div class="choice">
+            <div class="label">
+                <p>No</p>
+                <button data-choice="2" class="material-icons">thumb_down</button>
+            </div>
+        </div>
+    </div>
+</div>
+       `
+
+       document.getElementById("viewer-button").onclick = function () {
+            document.getElementById("viewer-dialog").style.display = "block";
+       }
+
+       document.getElementsByClassName("close-viewer")[0].onclick = function () {
+             document.getElementById("viewer-dialog").style.display = "none";
+       }
+
+       function displayCheckForUnderstanding() {
+            document.getElementById("viewer-dialog").style.display = "block";
+            if (document.querySelector(".choice").value == 1) {
+              sendMessage("studio721,understanding,");
+              return document.querySelector(".choice").value;
+            } else {
+              sendMessage("studio721,understanding,");
+              return document.querySelector(".choice").value;
+            }
+
+       }
+
 });
-
-
 
