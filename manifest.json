@@ -1,6 +1,7 @@
 {
     "manifest_version":2,
     "name": "Studio 721",
+    "description": "Adds tools to meet to support synchronous instruction in online secondary classrooms.",
     "version":"1",
     "content_scripts":[
         {
