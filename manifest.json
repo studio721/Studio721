@@ -1,28 +1,23 @@
 {
-    "name": "Project 721",
-    "version": "1.0",
-    "description": "Improves video conferencing during Google Meet",
-    "manifest_version": 2,
-
-    "background":{
-        "scripts":["background.js"]
-    },
-
+    "manifest_version":2,
+    "name": "Studio 721",
+    "version":"1",
     "content_scripts":[
         {
-            "matches":["https://meet.google.com/*"],
-            "js":["content.js","jquery.js"]
+            "matches": ["*://*.meet.google.com/*"],
+            "js":["JS/external/jquery.js"]
+        },
+        {
+            "matches": ["*://*.meet.google.com/*"],
+            "js":["JS/inject.js","JS/external/youtube.js"],
+            "css":["CSS/inject.css"]
         }
     ],
-
-    "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "dialog.html"
-
-  },
-  "permissions": ["activeTab"],
-
-  "content_security_policy": "script-src 'self' https://s.ytimg.com/yts/jsbin/www-widgetapi-vflX_vK2f/www-widgetapi.js; object-src 'self'"
+    "background":{
+        "scripts":["JS/background.js"]
+    },
+    "browser_action":{
+        "default_icon": "assets/icon.png"
+    }
 }
-
 

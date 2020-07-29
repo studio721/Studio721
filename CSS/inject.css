@@ -1,0 +1,295 @@
+:root {
+  --display-status: none;
+}
+
+.textInput {
+  color: black;
+  width: 400px;
+  border-width: 0px 0px 1.5px 0px;
+  border-color: transparent transparent #282828 transparent;
+  padding-bottom: 6px;
+  font-size: 15px;
+  transition: ease-in-out .3s;
+}
+
+.textInput:focus {
+  border-bottom-color: #FF0000;
+}
+
+input:focus {
+  outline: none;
+  border-bottom-color: #282828;
+}
+
+input[type="range"] {
+  width: 650px;
+  vertical-align: center;
+}
+
+.video-display {
+  text-align: left;
+}
+
+.video-title {
+  text-align: center;
+}
+
+.video-thumbnail {
+  margin-top: 40px;
+  text-align: center;
+  justify-content: center;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.video {
+  margin-left: 45px;
+  display: inline-block;
+}
+
+.controls {
+  margin-left: 45px;
+  width: 465px;
+  height: 50px;
+  padding: 10px;
+  margin-top: 5px;
+  background: white;
+  float: left;
+  border-radius: 5px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  text-align: left;
+}
+
+.selectButton {
+  height: 35px;
+  color: #282828;
+  border: 1.5px solid #282828;
+  background: white;
+  font-size: 17px;
+  margin-left: 5px;
+  border-radius: 5px;
+  transition: ease-in-out .3s;
+}
+
+.selectButton:hover {
+  border-color: #282828;
+}
+
+.button {
+  height: 35px;
+  color: grey;
+  border: 1.5px solid grey;
+  background: white;
+  font-size: 17px;
+  border-radius: 5px;
+  transition: ease-in-out .3s;
+}
+
+.button:hover {
+  color: black;
+  border-color: black;
+}
+
+.time-display {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.toggle-controls {
+  display: inline-block;
+}
+
+.input-type {
+  display: var(--display-status);
+  /*change to none*/
+}
+
+#progress-bar {
+  width: 465px;
+}
+
+.dialog {
+  z-index: 3;
+  display: none;
+  padding-top: 10px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4)
+}
+
+.dialog-content {
+  margin: auto;
+  background-color: #fff;
+  position: relative;
+  max-height: 95vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 0;
+  border-radius: 5px;
+  outline: 0;
+  max-width: 750px;
+}
+
+.container:after,
+.container:before,
+.bar:before,
+.bar:after {
+  content: "";
+  display: table;
+  clear: both
+}
+
+.container {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 0.01em 16px;
+}
+
+.animate-zoom {
+  animation: animatezoom 0.4s;
+}
+
+@keyframes animatezoom {
+  from {
+      transform: scale(0);
+  }
+
+  to {
+      transform: scale(1);
+  }
+}
+
+.light-grey {
+  color: #000 !important;
+  background-color: #f1f1f1 !important;
+}
+
+.padding {
+  padding: 8px 16px !important;
+}
+
+.right {
+  float: right !important;
+}
+
+.parent {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  flex: 1 1 0px;
+}
+
+.video-title {
+  text-align: left;
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+.video-date {
+  text-align: left;
+  font-size: 17px;
+  padding-left: 20px;
+  margin-top: -15px;
+  margin-bottom: -10px;
+}
+
+.closeBTN {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+}
+
+.video-description {
+  text-align: left;
+  font-size: 17px;
+  color: #707B7C;
+  padding-left: 20px;
+}
+
+.nav li {
+  display: inline-block;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.viewOnyoutube {
+  height: 35px;
+  color: grey;
+  border: 1.5px solid grey;
+  background: white;
+  font-size: 17px;
+  border-radius: 5px;
+  transition: ease-in-out .3s;
+}
+
+.viewOnyoutube:hover {
+  color: #ff0000;
+  border-color: #ff0000;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 11px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff0000;
+  cursor: pointer;
+}
+
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+hr {
+  margin-top: 20px;
+  margin-bottom: -5px;
+  background-color: darkgrey;
+  height: 1px;
+  border: 0;
+}
+
+img {
+  transition: 0.2s ease-in-out;
+}
+
+img:hover {
+  transform: scale(1.02);
+}
+
+#playbackGroup {
+  position: absolute;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+}
+
+#resizeIcon {
+  cursor: move;
+  z-index: 10;
+}
+
+
