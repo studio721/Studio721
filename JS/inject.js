@@ -85,8 +85,9 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
         }
 
         var popupGroup = `
+        
         <div id="playbackGroup">
-           <div id="video-placeholder" style="position:absolute; left:0px; top:10px; height:300px; width:465px; z-index: 0;" class="video">
+           <div id="video-placeholder" style=" transform-origin: bottom left; position:absolute; left:0px; top:10px; height:300px; width:465px; z-index: 0;" class="video">
            </div>
            <div class="video-display"  style="z-index:0; display:none;"></div>
            <div style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="  controls">
@@ -140,6 +141,8 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
         </div>`;
 
         $("body").append(popup);
+
+        var scaleFactor = 1.0;
         document.querySelector(".closeBTN").addEventListener("click", function () {
             document.getElementById('dialog-box').style.display = 'none'
         });
@@ -151,6 +154,21 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
         document.querySelector(".searchBarBTN").addEventListener("click", function () {
             openFunction(event, 'Search')
         });
+
+            document.querySelector("#zoom-in").addEventListener("click", function () {
+            var videoDialog = document.querySelector("#video-placeholder");
+            scaleFactor += 0.1;
+            videoDialog.style.transform = `scale(${scaleFactor})`;
+        });
+
+
+        document.querySelector("#zoom-out").addEventListener("click", function () {
+            var videoDialog = document.querySelector("#video-placeholder");
+            scaleFactor-=0.1;
+            videoDialog.style.transform = `scale(${scaleFactor})`;
+
+        });
+
 
         document.querySelector("#close-window").addEventListener("click", function () {
             if (confirm("Are you sure you want to cancel sharing?")) {
