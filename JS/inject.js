@@ -494,3 +494,106 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
 
 });
 
+var presenterCFU = `    
+    <div id="presenter-dialog" class="modal">
+        <div class="modal-content">
+            <span class="close-presenter">&times;</span>
+            <h2>Check for Understanding</h2>
+            <h3 id="responses">Responses: 0</h3>
+            <div class="choice">
+                <div class="result">
+                    <p class="label" id="percentage1">0%</p>
+                    <div class="bar" data-choice="1"></div>
+                    <p id="tally1">0</p>
+                    <h4>Yes</h4>
+                </div>
+            </div>
+            <div class="choice">
+                <div class="result">
+                    <p class="label" id="percentage2">0%</p>
+                    <div class="bar" data-choice="2"></div>
+                    <p id="tally2">0</p>
+                    <h4>No</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+`
+var buttons = document.querySelectorAll(".choice button"),
+  tally = {
+    1: 0,
+    2: 0,
+    total: 0
+  };
+
+function vote(choice) {
+  tally[choice]++;
+  tally["total"]++;
+  console.log(tally);
+  document.getElementById("tally1").innerHTML = tally[1];
+  document.getElementById("tally2").innerHTML = tally[2];
+  document.getElementById("percentage1").innerHTML = Math.round(tally[1] / tally["total"] * 100) + "%";
+  document.getElementById("percentage2").innerHTML = Math.round(tally[2] / tally["total"] * 100) + "%";
+  document.getElementById("responses").innerHTML = "Responses: " + tally["total"];
+}
+
+function barPercentage(node, tally) {
+  var choice = node.dataset.choice;
+  
+  if (tally[choice]) {
+    return tally[choice]/tally["total"] * 100;
+  }  
+  return 0;
+}
+
+function renderBars() {
+  var bars = document.getElementsByClassName("bar");
+  
+  for (var i = 0; i < bars.length; i++) {
+    var percentage = barPercentage(bars[i], tally);
+    console.log(percentage)
+    bars[i].style.height = percentage.toString() + "%";
+  }
+}
+
+function setup() {
+  // Set up event listeners
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", function(e) {
+      vote(e.target.dataset["choice"]);
+      renderBars();
+    });
+  }
+  
+  renderBars();
+}
+
+var understandingDiv = document.createElement('div');
+understandingDiv.style.paddingRight = "15px";
+understandingDiv.classList.add("understandingBtn");
+
+var image = document.createElement("img");
+image.src = "https://i.ibb.co/qR1fsJk/checkmark.png";
+image.style.width = "24px";
+understandingDiv.appendChild(image);
+
+var label = document.createElement('div');
+label.innerHTML = "Check for Understanding";
+label.classList.add("I9jWb");
+
+understandingDiv.appendChild(label);
+var btmBar = document.querySelector(".LCXT6");
+btmBar.insertBefore(understandingDiv, btmBar.childNodes[2]);
+
+understandingDiv.addEventListener("click", function() {
+    openUnderstandingDialog();
+    sendMessage("studio21,check,");
+});
+
+function openUnderstandingDialog() {
+    document.querySelector("#presenter-dialog").style.display = "block";
+}
+
+document.getElementsByClassName("close-presenter")[0].onclick = function () {
+    document.getElementById("presenter-dialog").style.display = "none";
+}
