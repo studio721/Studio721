@@ -491,10 +491,9 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             }
 
        }
-
-});
-
-var presenterCFU = `    
+    
+    
+    var presenterCFU = `    
     <div id="presenter-dialog" class="modal">
         <div class="modal-content">
             <span class="close-presenter">&times;</span>
@@ -597,3 +596,7 @@ function openUnderstandingDialog() {
 document.getElementsByClassName("close-presenter")[0].onclick = function () {
     document.getElementById("presenter-dialog").style.display = "none";
 }
+    
+
+});
+
