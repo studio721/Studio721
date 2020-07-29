@@ -18,15 +18,15 @@ var meetingDetailsClass = "anXpBf"; //row of elements inside the meeting details
 var buttonBarClass = "fT3JUc"; //bottom bar of the meets call that sometimes disappears
 var personNameClass = "NkoVdd"; //text label of name of person(s) inside meeting, viewable inside the meeting details -> people 
 
-function showBottomBar(){
-    if(document.querySelectorAll("." + buttonBarClass).length > 0){
+function showBottomBar() {
+    if (document.querySelectorAll("." + buttonBarClass).length > 0) {
         document.querySelector("." + buttonBarClass).classList.add("LCXT6");
     }
 }
 
 showBottomBar();
 
-setInterval(function(){
+setInterval(function () {
     showBottomBar()
 }, 1000);
 
@@ -41,7 +41,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 if (chatContent.includes("studio721")) {
                     var message = new MessageData(chatContent)
                     var x = document.getElementById("play-pause");
-                    if (message.service == "youtube"){ //play a YT video
+                    if (message.service == "youtube") { //play a YT video
                         console.log("playing video with id " + message.content)
                         document.getElementById("dialog-box").style.display = "none";
                         openPlaybackPopup(lastSentVideo == message.content);
@@ -60,8 +60,8 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                     } else if (message.service == "cancel") { //cancel showing the video
                         cancelVideoPlayback();
                     } else if (message.service == "check") {
-                      console.log("displaying viewer check for understanding")
-                      displayCheckForUnderstanding();
+                        console.log("displaying viewer check for understanding")
+                        displayCheckForUnderstanding();
 
                     }
 
@@ -203,9 +203,9 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             document.querySelector("#dialog-box").style.display = "block";
         }
 
-        function openPlaybackPopup(showControls=false) { //open the youtube view and controls (optional)
+        function openPlaybackPopup(showControls = false) { //open the youtube view and controls (optional)
             document.querySelector("#video-placeholder").style.zIndex = 100;
-            document.querySelector(".controls").style.display = (showControls ? "block": "none");
+            document.querySelector(".controls").style.display = (showControls ? "block" : "none");
             document.querySelector(".video-display").style.display = "block";
         }
 
@@ -313,7 +313,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
         }
 
         function sendMessage(message = "") {
-            if(message.includes("studio721,youtube,")){
+            if (message.includes("studio721,youtube,")) {
                 lastSentVideo = message.split(",")[2];
             }
             const button = document.querySelectorAll("[aria-label='Send a message to everyone']")[1];
@@ -388,8 +388,6 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
 
                             var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
                             $("#response").append(`
-
-
                           <div class="parent">
                                <div class="column">
                                   <p class='video-title'>${title}</p>
@@ -443,160 +441,154 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 color: 'white',
                 controls: 0
             },
-            events: {onReady: initialize, "onStateChange": onPlayerStateChange}
+            events: { onReady: initialize, "onStateChange": onPlayerStateChange }
         });
-    }, 2000);
 
-
-    var viewerControls = `
-      <div id="viewer-dialog" class="modal">
-        <div class="modal-content">
-          <span class="close-viewer">&times;</span>
-          <h2>Check for Understanding</h2>
-          <h3>Does this make sense?</h3>
-
-        <div class="choice">
-            <div class="label">
-                <p>Yes</p>
-                <button data-choice="1" class="material-icons">thumb_up</button>
+        var viewerCFU = `
+        <div id="viewer-dialog" class="modal">
+            <div class="modal-content">
+                <span class="close-viewer">&times;</span>
+                <h2>Check for Understanding</h2>
+                <h3>Does this make sense?</h3>       
+                <div class="choice">
+                    <div class="label">
+                        <p>Yes</p>
+                        <button data-choice="1" class="material-icons">thumb_up</button>
+                    </div>
+                </div>
+                <div class="choice">
+                    <div class="label">
+                        <p>No</p>
+                        <button data-choice="2" class="material-icons">thumb_down</button>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="choice">
-            <div class="label">
-                <p>No</p>
-                <button data-choice="2" class="material-icons">thumb_down</button>
-            </div>
-        </div>
-    </div>
-</div>
-       `
-
-       document.getElementById("viewer-button").onclick = function () {
+    `
+        document.getElementById("viewer-button").onclick = function () {
             document.getElementById("viewer-dialog").style.display = "block";
-       }
+        }
 
-       document.getElementsByClassName("close-viewer")[0].onclick = function () {
-             document.getElementById("viewer-dialog").style.display = "none";
-       }
+        document.getElementsByClassName("close-viewer")[0].onclick = function () {
+            document.getElementById("viewer-dialog").style.display = "none";
+        }
 
-       function displayCheckForUnderstanding() {
+        function displayCheckForUnderstanding() {
             document.getElementById("viewer-dialog").style.display = "block";
             if (document.querySelector(".choice").value == 1) {
-              sendMessage("studio721,understanding,");
-              return document.querySelector(".choice").value;
+                sendMessage("studio721,understanding,");
+                return document.querySelector(".choice").value;
             } else {
-              sendMessage("studio721,understanding,");
-              return document.querySelector(".choice").value;
+                sendMessage("studio721,understanding,");
+                return document.querySelector(".choice").value;
             }
 
-       }
-    
-    
-    var presenterCFU = `    
-    <div id="presenter-dialog" class="modal">
-        <div class="modal-content">
-            <span class="close-presenter">&times;</span>
-            <h2>Check for Understanding</h2>
-            <h3 id="responses">Responses: 0</h3>
-            <div class="choice">
-                <div class="result">
-                    <p class="label" id="percentage1">0%</p>
-                    <div class="bar" data-choice="1"></div>
-                    <p id="tally1">0</p>
-                    <h4>Yes</h4>
-                </div>
-            </div>
-            <div class="choice">
-                <div class="result">
-                    <p class="label" id="percentage2">0%</p>
-                    <div class="bar" data-choice="2"></div>
-                    <p id="tally2">0</p>
-                    <h4>No</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-`
-var buttons = document.querySelectorAll(".choice button"),
-  tally = {
-    1: 0,
-    2: 0,
-    total: 0
-  };
+        }
 
-function vote(choice) {
-  tally[choice]++;
-  tally["total"]++;
-  console.log(tally);
-  document.getElementById("tally1").innerHTML = tally[1];
-  document.getElementById("tally2").innerHTML = tally[2];
-  document.getElementById("percentage1").innerHTML = Math.round(tally[1] / tally["total"] * 100) + "%";
-  document.getElementById("percentage2").innerHTML = Math.round(tally[2] / tally["total"] * 100) + "%";
-  document.getElementById("responses").innerHTML = "Responses: " + tally["total"];
-}
-
-function barPercentage(node, tally) {
-  var choice = node.dataset.choice;
-  
-  if (tally[choice]) {
-    return tally[choice]/tally["total"] * 100;
-  }  
-  return 0;
-}
-
-function renderBars() {
-  var bars = document.getElementsByClassName("bar");
-  
-  for (var i = 0; i < bars.length; i++) {
-    var percentage = barPercentage(bars[i], tally);
-    console.log(percentage)
-    bars[i].style.height = percentage.toString() + "%";
-  }
-}
-
-function setup() {
-  // Set up event listeners
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("click", function(e) {
-      vote(e.target.dataset["choice"]);
-      renderBars();
     });
-  }
-  
-  renderBars();
-}
 
-var understandingDiv = document.createElement('div');
-understandingDiv.style.paddingRight = "15px";
-understandingDiv.classList.add("understandingBtn");
+    var presenterCFU = `    
+      <div id="presenter-dialog" class="modal">
+          <div class="modal-content">
+              <span class="close-presenter">&times;</span>
+              <h2>Check for Understanding</h2>
+              <h3 id="responses">Responses: 0</h3>
+              <div class="choice">
+                  <div class="result">
+                      <p class="label" id="percentage1">0%</p>
+                      <div class="bar" data-choice="1"></div>
+                      <p id="tally1">0</p>
+                      <h4>Yes</h4>
+                  </div>
+              </div>
+              <div class="choice">
+                  <div class="result">
+                      <p class="label" id="percentage2">0%</p>
+                      <div class="bar" data-choice="2"></div>
+                      <p id="tally2">0</p>
+                      <h4>No</h4>
+                  </div>
+              </div>
+          </div>
+      </div>
+    `
+    var buttons = document.querySelectorAll(".choice button"),
+        tally = {
+            1: 0,
+            2: 0,
+            total: 0
+        };
 
-var image = document.createElement("img");
-image.src = "https://i.ibb.co/qR1fsJk/checkmark.png";
-image.style.width = "24px";
-understandingDiv.appendChild(image);
+    function vote(choice) {
+        tally[choice]++;
+        tally["total"]++;
+        console.log(tally);
+        document.getElementById("tally1").innerHTML = tally[1];
+        document.getElementById("tally2").innerHTML = tally[2];
+        document.getElementById("percentage1").innerHTML = Math.round(tally[1] / tally["total"] * 100) + "%";
+        document.getElementById("percentage2").innerHTML = Math.round(tally[2] / tally["total"] * 100) + "%";
+        document.getElementById("responses").innerHTML = "Responses: " + tally["total"];
+    }
 
-var label = document.createElement('div');
-label.innerHTML = "Check for Understanding";
-label.classList.add("I9jWb");
+    function barPercentage(node, tally) {
+        var choice = node.dataset.choice;
 
-understandingDiv.appendChild(label);
-var btmBar = document.querySelectorAll("." + buttonBarClass);
-btmBar.insertBefore(understandingDiv, btmBar.childNodes[2]);
+        if (tally[choice]) {
+            return tally[choice] / tally["total"] * 100;
+        }
+        return 0;
+    }
 
-understandingDiv.addEventListener("click", function() {
-    openUnderstandingDialog();
-    sendMessage("studio21,check,");
-});
+    function renderBars() {
+        var bars = document.getElementsByClassName("bar");
 
-function openUnderstandingDialog() {
-    document.querySelector("#presenter-dialog").style.display = "block";
-}
+        for (var i = 0; i < bars.length; i++) {
+            var percentage = barPercentage(bars[i], tally);
+            console.log(percentage)
+            bars[i].style.height = percentage.toString() + "%";
+        }
+    }
 
-document.getElementsByClassName("close-presenter")[0].onclick = function () {
-    document.getElementById("presenter-dialog").style.display = "none";
-}
-    
+    function setup() {
+        // Set up event listeners
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener("click", function (e) {
+                vote(e.target.dataset["choice"]);
+                renderBars();
+            });
+        }
 
-});
+        renderBars();
+    }
 
+    var understandingDiv = document.createElement('div');
+    understandingDiv.style.paddingRight = "15px";
+    understandingDiv.classList.add("understandingBtn");
+
+    var image = document.createElement("img");
+    image.src = "https://i.ibb.co/qR1fsJk/checkmark.png";
+    image.style.width = "24px";
+    understandingDiv.appendChild(image);
+
+    var label = document.createElement('div');
+    label.innerHTML = "Check for Understanding";
+    label.classList.add("I9jWb");
+
+    understandingDiv.appendChild(label);
+    var btmBar = document.querySelectorAll("." + buttonBarClass);
+    btmBar.insertBefore(understandingDiv, btmBar.childNodes[2]);
+
+    understandingDiv.addEventListener("click", function () {
+        openUnderstandingDialog();
+        sendMessage("studio21,check,");
+    });
+
+    function openUnderstandingDialog() {
+        document.querySelector("#presenter-dialog").style.display = "block";
+    }
+
+    document.getElementsByClassName("close-presenter")[0].onclick = function () {
+        document.getElementById("presenter-dialog").style.display = "none";
+    }
+
+}, 2000);
