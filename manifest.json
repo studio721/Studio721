@@ -2,6 +2,7 @@
     "manifest_version":2,
     "name": "Studio 721",
     "version":"1",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnqJ+rhNbn+ixZbQxAOcvx2AQUVqR07z+H7hrA1z1YGYpInsCZoAJ6D5/soqSYJCZdgD8stf9pYXrmyAs8yq286yRnUt7rYLTfzU9QfJzJMGSPUrjftuo6MMqpOeUlQYFraGt7INiEH2SiFekfgWkeydmoWx+niAHhkNCz9A7ccSyxGXlAjQEPe3y8xlkYOIjAyBaxTd8vTkereTxqtvUsmlzZj1i5UhORMbBOL4uv3XENffiPDhBNQm6bk2TZ481uZKgAp7UD63BqCViBhXblovquTdBJdbXlqmQmqsJC2hBcOUT6LJMHbe19yqAnfvSRJzrPBmpckevRfUstfYU0QIDAQAB",
     "content_scripts":[
         {
             "matches": ["*://*.meet.google.com/*"],
@@ -18,6 +19,13 @@
     },
     "browser_action":{
         "default_icon": "assets/icon.png"
-    }
+    },
+    "oauth2": {
+        "client_id": "794577565089-vl63fb4a2i618aed63448p153ns5629c.apps.googleusercontent.com",
+        "scopes":["https://www.googleapis.com/auth/youtube.readonly"]
+    },
+    "permissions": [
+      "identity"
+    ]
 }
 
