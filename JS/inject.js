@@ -17,7 +17,7 @@ var addPeopleClass = "K74C9e"; //"add person" label in the chat/people menu that
 var meetingDetailsClass = "anXpBf"; //row of elements inside the meeting details tab for "People" and "Chat" tabs
 var buttonBarClass = "fT3JUc"; //bottom bar of the meets call that sometimes disappears
 var personNameClass = "NkoVdd"; //text label of name of person(s) inside meeting, viewable inside the meeting details -> people 
-
+var bottomBarClass = "LCXT6";
 function showBottomBar(){
     if(document.querySelectorAll("." + buttonBarClass).length > 0){
         document.querySelector("." + buttonBarClass).classList.add("LCXT6");
@@ -32,7 +32,11 @@ setInterval(function(){
 
 
 document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", function () {
-    setTimeout(function () {
+    // setTimeout(function () {
+        
+        function waitForLaunchedMeeting(){
+            console.log("running")
+        if(document.querySelector("." + bottomBarClass)!=null){
         openChat(); //open the chat
         setInterval(function () {
             const chatElements = document.querySelectorAll("[data-message-text]");
@@ -218,6 +222,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             buttonClicked()
         });
 
+        setTimeout(function () {
 
         document.querySelector(".XMjwIe").addEventListener("click", function () {
             setTimeout(function () {
@@ -232,6 +237,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 });
             }, 200);
         });
+    }, 1000);
 
         function buttonClicked() {
             var url = document.getElementById("vid-url").value;
@@ -437,7 +443,17 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             },
             events: {onReady: initialize, "onStateChange": onPlayerStateChange}
         });
-    }, 2000);
+    }else {
+        setTimeout(function() {
+            waitForLaunchedMeeting();
+        }, 300);
+    }
+}
+
+waitForLaunchedMeeting();
+
+
+    // }, 2000);
 });
 
 
