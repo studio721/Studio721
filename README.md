@@ -1,7 +1,3 @@
-Share Video|Pause video|Play video|Timestamp|Cancel Sharing
---- | --- | --- | --- | ---
-`studio721,youtube,${link}`|`studio721,pause,`|`studio721,play,`|`studio721,timeline,${time}`|`studio721,cancel,`
-
 # Studio 721
 ### A Google Chrome extension to provide tools for teachers using Google Meet as a synchronous remote education platform.
 This extension was designed by an educator and created by student interns in the [CodeLabs 2020 Intern Program](https://www.srnd.org/codelabs).
