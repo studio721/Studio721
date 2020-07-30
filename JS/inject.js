@@ -7,6 +7,12 @@ class MessageData {
     }
 }
 
+var authorization_token;
+function saveToken(token) {
+	authorization_token  = token;
+}
+chrome.runtime.sendMessage('get_token',  saveToken);
+
 var lastSentVideo = "";
 var player,
     time_update_interval = 0;
@@ -381,8 +387,11 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 $.ajax({
                     type: 'GET',
                     url: 'https://www.googleapis.com/youtube/v3/search',
+		    headers: {
+			Authorization: 'Bearer ' + authorization_token,
+		    },
                     data: {
-                        key: 'AIzaSyCm4D3nwozwzixnDmDGU7Wj-8x0LSlyZ3g',
+			key: 'AIzaSyB9Q6dzIEP_l8ifEK8wDuO8dGWwFamNtKY',
                         q: string,
                         part: 'snippet',
                         maxResults: 10,
