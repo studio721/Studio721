@@ -1,6 +1,7 @@
 {
     "manifest_version":2,
     "name": "Studio 721",
+    "description": "Adds tools to meet to support synchronous instruction in online secondary classrooms.",
     "version":"1",
     "icons": { "16": "assets/icon-16.png",
                "22": "assets/icon-22.png",
@@ -11,6 +12,7 @@
               "256": "assets/icon-256.png",
               "512": "assets/icon-512.png"
                },
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnqJ+rhNbn+ixZbQxAOcvx2AQUVqR07z+H7hrA1z1YGYpInsCZoAJ6D5/soqSYJCZdgD8stf9pYXrmyAs8yq286yRnUt7rYLTfzU9QfJzJMGSPUrjftuo6MMqpOeUlQYFraGt7INiEH2SiFekfgWkeydmoWx+niAHhkNCz9A7ccSyxGXlAjQEPe3y8xlkYOIjAyBaxTd8vTkereTxqtvUsmlzZj1i5UhORMbBOL4uv3XENffiPDhBNQm6bk2TZ481uZKgAp7UD63BqCViBhXblovquTdBJdbXlqmQmqsJC2hBcOUT6LJMHbe19yqAnfvSRJzrPBmpckevRfUstfYU0QIDAQAB",
     "content_scripts":[
         {
             "matches": ["*://*.meet.google.com/*"],
@@ -24,6 +26,13 @@
     ],
     "background":{
         "scripts":["JS/background.js"]
-    }
+    },
+    "oauth2": {
+        "client_id": "794577565089-vl63fb4a2i618aed63448p153ns5629c.apps.googleusercontent.com",
+        "scopes":["https://www.googleapis.com/auth/youtube.readonly"]
+    },
+    "permissions": [
+      "identity"
+    ]
 }
 
