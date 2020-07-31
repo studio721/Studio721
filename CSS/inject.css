@@ -303,15 +303,16 @@ img:hover {
 .modal {
   display: none;
   z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
   margin: auto;
-  position: relative;
-  max-height: 95vh;
+  position: fixed;
   padding: 0;
-  max-width: 750px;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 750px;
+  max-width: 100%;
+  height: 95vh;
+  max-height: 100%;
 }
 
 .modal-content {
