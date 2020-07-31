@@ -64,7 +64,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             </div>
         </div>
             `
-        
+
             $("body").append(viewerCFU)
 
 
@@ -334,16 +334,10 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 videoDialog.style.transform = `scale(${scaleFactor})`;
             });
 
-
             document.querySelector("#zoom-out").addEventListener("click", function () {
                 var videoDialog = document.querySelector("#video-placeholder");
-                var controlBar = document.querySelector(".controls");
-
                 scaleFactor -= 0.1;
-
-                controlBar.style.transform = `scale(${scaleFactor})`;
                 videoDialog.style.transform = `scale(${scaleFactor})`;
-
             });
 
             document.querySelector("#close-window").addEventListener("click", function () {
@@ -392,9 +386,45 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
 
             function openPlaybackPopup(showControls = false) { //open the youtube view and controls (optional)
                 document.querySelector("#video-placeholder").style.zIndex = 100;
-                document.querySelector(".controls").style.display = (showControls ? "block" : "none");
+
+                document.querySelector("#mute-toggle").style.display = (showControls ? "inline-block" : "none");
+                document.querySelector("#play-pause").style.display = (showControls ? "inline-block" : "none");
+                document.querySelector("#play-pause").style.display = (showControls ? "inline-block" : "none");
+                document.querySelector("#close-window").style.display = (showControls ? "inline-block" : "none");
+                document.querySelector(".progress-bar").style.visibility = (showControls ? "visible" : "hidden");
+            
+                
+                document.querySelector(".controls").style.display = "block";
                 document.querySelector(".video-display").style.display = "block";
             }
+
+            //Play/Pause toggle
+            $('#play-pause').on('click', function () {
+                // document.querySelectorAll("[data-tooltip]")[4].click()
+                var x = document.getElementById("play-pause");
+                if (x.innerHTML === "play_arrow") {
+                    sendMessage("studio721,play,")
+                    // player.playVideo();
+                    // x.innerHTML = "pause";
+                } else {
+                    paused = true;
+                    sendMessage("studio721,pause,")
+                    // player.pauseVideo();
+                    // x.innerHTML = "play_arrow";
+                }
+            });
+
+            //Mute/Unmute toggle
+            $('#mute-toggle').on('click', function () {
+                var mute_toggle = $(this);
+                if (player.isMuted()) {
+                    player.unMute();
+                    mute_toggle.text('volume_up');
+                } else {
+                    player.mute();
+                    mute_toggle.text('volume_off');
+                }
+            });
 
             function cancelVideoPlayback() { //cancel the video shown to all viewers
                 player.stopVideo()
