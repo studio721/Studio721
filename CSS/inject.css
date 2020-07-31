@@ -2,6 +2,11 @@
   --display-status: none;
 }
 
+
+.voteModal{
+  max-height: 250px !important;
+}
+
 .textInput {
   color: black;
   width: 400px;
@@ -52,7 +57,7 @@ input[type="range"] {
 
 .controls {
   margin-left: 45px;
-  width: 465px;
+
   height: 50px;
   padding: 10px;
   margin-top: 5px;
@@ -298,9 +303,34 @@ img:hover {
 
 
 
+.modal {	
+  display: var(--display-status);;	
+  position: fixed;	
+  z-index: 1;	
+  left: 0;	
+  top: 0;	
+  width: 100%;	
+  height: 100%;	
+  overflow: auto;	
+  background-color: rgb(0, 0, 0);	
+  background-color: rgba(0, 0, 0, 0.4);	
+}	
+.modal-content {	
+  border-radius: 10px;	
+  background-color: #fefefe;	
+  margin-top: 20px;	
+  margin-left: auto;	
+  margin-right: auto;	
+  max-width: 750px;	
+  padding: 20px;	
+  border: 1px solid #888;	
+  width: 80%;	
+  text-align: center;	
+  vertical-align: middle;	
+}	
 
-  
-.modal {
+
+/* .modal {
   display: none;
   z-index: 1;
   margin: auto;
@@ -317,7 +347,6 @@ img:hover {
 
 .modal-content {
   border-radius: 10px;
-
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
@@ -325,7 +354,7 @@ img:hover {
   width: 80%;
   text-align: center;
   vertical-align: middle;
-}
+} */
 
 .labels {
   vertical-align: middle;

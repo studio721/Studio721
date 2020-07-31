@@ -11,9 +11,9 @@ class MessageData {
 
 var authorization_token;
 function saveToken(token) {
-	authorization_token  = token;
+    authorization_token = token;
 }
-chrome.runtime.sendMessage('get_token',  saveToken);
+chrome.runtime.sendMessage('get_token', saveToken);
 
 var lastSentVideo = "";
 var player,
@@ -40,15 +40,13 @@ setInterval(function () {
 
 
 document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", function () {
-    // setTimeout(function () {
-
     function waitForLaunchedMeeting() {
         console.log("running")
         if (document.querySelector("." + bottomBarClass) != null) {
 
             var viewerCFU = `
-        <div id="viewer-dialog"   style="z-index:400"  class=" modal">
-            <div class="modal-content">
+            <div id="viewer-dialog" style="z-index:400" class=" modal">
+            <div class="modal-content voteModal">
                 <h2>Check for Understanding</h2>
                 <h3>Does this make sense?</h3>       
                 <div class="choice">
@@ -65,35 +63,37 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 </div>
             </div>
         </div>
-    `
+            `
+        
             $("body").append(viewerCFU)
 
 
             var presenterCFU = `    
-      <div id="presenter-dialog" style="z-index:400" class=" modal">
-          <div class="modal-content">
-              <span class="close-presenter">&times;</span>
-              <h2>Check for Understanding</h2>
-              <h3 id="responses">Responses: 0</h3>
-              <div class="choice">
-                  <div class="result">
-                      <p class="label" id="percentage1">0%</p>
-                      <div class="bar" data-choice="1"></div>
-                      <p id="tally1">0</p>
-                      <h4>Yes</h4>
-                  </div>
-              </div>
-              <div class="choice">
-                  <div class="result">
-                      <p class="label" id="percentage2">0%</p>
-                      <div class="bar" data-choice="2"></div>
-                      <p id="tally2">0</p>
-                      <h4>No</h4>
-                  </div>
-              </div>
-          </div>
-      </div>
-    `
+            <div id="presenter-dialog" style="z-index:400" class=" modal">
+            <div class="modal-content">
+                <span class="close-presenter">&times;</span>
+                <h2>Check for Understanding</h2>
+                <h3 id="responses">Responses: 0</h3>
+                <div class="choice">
+                    <div class="result">
+                        <p class="label" id="percentage1">0%</p>
+                        <div class="bar" data-choice="1"></div>
+                        <p id="tally1">0</p>
+                        <h4>Yes</h4>
+                    </div>
+                </div>
+                <div class="choice">
+                    <div class="result">
+                        <p class="label" id="percentage2">0%</p>
+                        <div class="bar" data-choice="2"></div>
+                        <p id="tally2">0</p>
+                        <h4>No</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            `
             $("body").append(presenterCFU)
 
 
@@ -161,17 +161,14 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             btmBar.insertBefore(understandingDiv, btmBar.childNodes[2]);
 
             understandingDiv.addEventListener("click", function () {
-                // openUnderstandingDialog();
                 sentCFU = true;
                 sendMessage("studio721,cfu,");
             });
 
             document.getElementsByClassName("close-presenter")[0].onclick = function () {
-                if (confirm("Are you sure you want to cancel the poll?")) {
+                if (confirm("Are you sure you want to end the poll?")) {
                     sendMessage("studio721,cancelPoll,")
-
                     document.getElementById("presenter-dialog").style.display = "none";
-
                 }
             }
 
@@ -237,8 +234,6 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                             document.getElementById("viewer-dialog").style.display = "none";
                             document.querySelector(".understandingBtn").style.display = "block";
                         }
-
-
                         //@info: chats that are sent at a similar time group together
                         chatElement.parentElement.children.length > 1 ? chatElement.remove() : chatElement.parentElement.parentElement.remove(); //remove a chat from the DOM depended on whether it is a single chat or a grouped chat
                     }
@@ -264,31 +259,30 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             }
 
             var popupGroup = `
-        
-        <div id="playbackGroup">
-           <div id="video-placeholder" style=" transform-origin: bottom left; position:absolute; left:0px; top:10px; height:300px; width:465px; z-index: 0;" class="video">
-           </div>
-           <div class="video-display"  style="z-index:0; display:none;"></div>
-           <div style="z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="  controls">
-              <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-              <div class="progress-bar">
-                 <input type="range" class="slider" id="progress-bar" value="0"><br>
-              </div>
-              <div class="toggle-controls" style="margin-top: 10px;">
-                 <i id="play-pause" class="material-icons">pause</i>
-                 <i id="mute-toggle" class="material-icons">volume_up</i>
-              </div>
-              <div class="time-display" style="position: relative; top: -6px;">
-                 <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
-              </div>
-              <div class=" right toggle-controls" style="margin-top: 10px;">
-                 <i id="close-window" class="material-icons">close</i>
-                 <i id="zoom-in" class="material-icons">zoom_in</i>
-                 <i id="zoom-out" class="material-icons">zoom_out</i>
-                 <i id="resizeIcon" class="material-icons">open_with</i>
-              </div>
-           </div>
-        </div>`
+                <div id="playbackGroup">
+                <div id="video-placeholder" style=" transform-origin: bottom left; position:absolute; left:0px; top:10px; height:300px; width:465px; z-index: 0;" class="video">
+                </div>
+                <div class="video-display"  style="z-index:0; display:none;"></div>
+                <div style="transform-origin: bottom left;  z-index:101; display:var(--display-status); position:absolute; left:0px; top:320px;" class="controls">
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+                    <div class="progress-bar">
+                        <input type="range" class="slider" id="progress-bar" value="0"><br>
+                    </div>
+                    <div class="toggle-controls" style="margin-top: 10px;">
+                        <i id="play-pause" class="material-icons">pause</i>
+                        <i id="mute-toggle" class="material-icons">volume_up</i>
+                    </div>
+                    <div class="time-display" style="position: relative; top: -6px;">
+                        <p><span id="current-time">0:00</span> / <span id="duration">0:00</span></p>
+                    </div>
+                    <div class=" right toggle-controls" style="margin-top: 10px;">
+                        <i id="close-window" class="material-icons">close</i>
+                        <i id="zoom-in" class="material-icons">zoom_in</i>
+                        <i id="zoom-out" class="material-icons">zoom_out</i>
+                        <i id="resizeIcon" class="material-icons">open_with</i>
+                    </div>
+                </div>
+                </div>`
 
             $("body").prepend(popupGroup);
 
@@ -343,7 +337,11 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
 
             document.querySelector("#zoom-out").addEventListener("click", function () {
                 var videoDialog = document.querySelector("#video-placeholder");
+                var controlBar = document.querySelector(".controls");
+
                 scaleFactor -= 0.1;
+
+                controlBar.style.transform = `scale(${scaleFactor})`;
                 videoDialog.style.transform = `scale(${scaleFactor})`;
 
             });
@@ -414,22 +412,32 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 buttonClicked()
             });
 
-            setTimeout(function () {
+            function waitForPresentButton() {
+                if (document.querySelectorAll(".XMjwIe").length > 0) {
+                    document.querySelector(".XMjwIe").addEventListener("click", function () {
+                        setTimeout(function () {
+                            $(".JAPqpe").append(`
+                            <div class="youtubeDiv" class="youtubeBtn">
+                            <img src="https://i.ibb.co/0QBkmSh/youtube.png" width=24 style="display: inline-block; margin-right: 10px; margin-bottom: -7px; margin-left:15px;"> 
+                            <p style="display: inline-block;">Youtube</p>
+                        </div>`)
 
-                document.querySelector(".XMjwIe").addEventListener("click", function () {
+                            document.querySelector(".youtubeDiv").addEventListener('click', function () {
+                                openYoutubeDialog();
+                            });
+                        }, 400);
+
+                    });
+                } else {
+                    console.log("didnt find presentor button yet")
+
                     setTimeout(function () {
-                        $(".JAPqpe").append(`
-                <div class="youtubeDiv" class="youtubeBtn">
-                <img src="https://i.ibb.co/0QBkmSh/youtube.png" width=24 style="display: inline-block; margin-right: 10px; margin-bottom: -7px; margin-left:15px;"> 
-                <p style="display: inline-block;">Youtube</p>
-              </div>`)
+                        waitForPresentButton();
+                    }, 300);
+                }
+            }
 
-                        document.querySelector(".youtubeDiv").addEventListener('click', function () {
-                            openYoutubeDialog();
-                        });
-                    }, 400);
-                });
-            }, 1000);
+            waitForPresentButton();
 
             function buttonClicked() {
                 var url = document.getElementById("vid-url").value;
@@ -521,40 +529,40 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                 textArea.parentElement.parentElement.parentElement.classList.add("CDELXb"); //removes label text
                 button.setAttribute("aria-disabled", "false");
             }
-        // });
+            // });
 
-        function searchVideos(string) { //search for videos given a search string
-            if (string.length > 1) {
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://www.googleapis.com/youtube/v3/search',
-		    headers: {
-			Authorization: 'Bearer ' + authorization_token,
-		    },
-                    data: {
-			key: 'AIzaSyB9Q6dzIEP_l8ifEK8wDuO8dGWwFamNtKY',
-                        q: string,
-                        part: 'snippet',
-                        maxResults: 10,
-                        type: 'video',
-                        videoEmbeddable: true,
-                    },
-                    success: function (data) {
-                        $("#response").empty();
-                        $.each(data.items, function (index, item) {
-                            console.log(item);
-                            var title = item.snippet.title;
-                            var id = item.id.videoId;
-                            var description = item.snippet.description;
-                            var thumbnailImage = item.snippet.thumbnails.default.url;
+            function searchVideos(string) { //search for videos given a search string
+                if (string.length > 1) {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'https://www.googleapis.com/youtube/v3/search',
+                        headers: {
+                            Authorization: 'Bearer ' + authorization_token,
+                        },
+                        data: {
+                            key: 'AIzaSyB9Q6dzIEP_l8ifEK8wDuO8dGWwFamNtKY',
+                            q: string,
+                            part: 'snippet',
+                            maxResults: 10,
+                            type: 'video',
+                            videoEmbeddable: true,
+                        },
+                        success: function (data) {
+                            $("#response").empty();
+                            $.each(data.items, function (index, item) {
+                                console.log(item);
+                                var title = item.snippet.title;
+                                var id = item.id.videoId;
+                                var description = item.snippet.description;
+                                var thumbnailImage = item.snippet.thumbnails.default.url;
 
-                            var date = new Date(Date.parse(item.snippet.publishTime.toString()));
-                            const monthNames = ["January", "February", "March", "April", "May", "June",
-                                "July", "August", "September", "October", "November", "December"
-                            ];
+                                var date = new Date(Date.parse(item.snippet.publishTime.toString()));
+                                const monthNames = ["January", "February", "March", "April", "May", "June",
+                                    "July", "August", "September", "October", "November", "December"
+                                ];
 
-                            var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-                            $("#response").append(`
+                                var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+                                $("#response").append(`
 
                           <div class="parent">
                                <div class="column">
