@@ -570,7 +570,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                             Authorization: 'Bearer ' + authorization_token,
                         },
                         data: {
-                            key: 'AIzaSyB9Q6dzIEP_l8ifEK8wDuO8dGWwFamNtKY',
+                            key: credentials['api_key'],
                             q: string,
                             part: 'snippet',
                             maxResults: 10,
