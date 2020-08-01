@@ -203,7 +203,10 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                             console.log("going to timestamp " + message.content)
                             player.seekTo(parseInt(message.content))
                         } else if (message.service == "cancel") { //cancel showing the video
-                            cancelVideoPlayback();
+                            player.stopVideo()
+                            document.querySelector("#video-placeholder").style.zIndex = 0;
+                            document.querySelector(".controls").style.display = "none";
+                            document.querySelector(".video-display").style.display = "none";
                         } else if (message.service == "cfu") { //cancel showing the video
                             if (sentCFU) {
                                 document.getElementById("presenter-dialog").style.display = "block";
@@ -387,7 +390,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             function openPlaybackPopup(showControls = false) { //open the youtube view and controls (optional)
                 document.querySelector("#video-placeholder").style.zIndex = 100;
 
-                document.querySelector("#mute-toggle").style.display = (showControls ? "inline-block" : "none");
+                // document.querySelector("#mute-toggle").style.display = (showControls ? "inline-block" : "none");
                 document.querySelector("#play-pause").style.display = (showControls ? "inline-block" : "none");
                 document.querySelector("#play-pause").style.display = (showControls ? "inline-block" : "none");
                 document.querySelector("#close-window").style.display = (showControls ? "inline-block" : "none");
@@ -427,10 +430,7 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             });
 
             function cancelVideoPlayback() { //cancel the video shown to all viewers
-                player.stopVideo()
-                document.querySelector("#video-placeholder").style.zIndex = 0;
-                document.querySelector(".controls").style.display = "none";
-                document.querySelector(".video-display").style.display = "none";
+        
                 sendMessage("studio721,cancel,")
             }
 
