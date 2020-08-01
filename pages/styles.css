@@ -1,0 +1,19 @@
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+p {
+  padding: 35px;
+}
+
+v {
+  padding: 35px;
+}
