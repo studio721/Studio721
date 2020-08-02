@@ -20,12 +20,17 @@
         },
         {
             "matches": ["*://*.meet.google.com/*"],
-            "js":["JS/credentials.js","JS/inject.js","JS/external/youtube.js"],
+            "js":["JS/inject.js","JS/external/youtube.js"],
             "css":["CSS/inject.css"]
         }
     ],
     "background":{
-        "scripts":["JS/background.js"]
+        "scripts": [
+		"JS/background/background.js",
+		"JS/background/credentials.js", 
+		"JS/background/youtube.js", 
+		"JS/external/jquery.js"
+	]
     },
     "web_accessible_resources": [
         "credentials.json"
