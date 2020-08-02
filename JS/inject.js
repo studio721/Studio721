@@ -26,22 +26,12 @@ var meetingDetailsClass = "anXpBf"; //row of elements inside the meeting details
 var buttonBarClass = "fT3JUc"; //bottom bar of the meets call that sometimes disappears
 var personNameClass = "NkoVdd"; //text label of name of person(s) inside meeting, viewable inside the meeting details -> people 
 var bottomBarClass = "LCXT6";
-function showBottomBar() {
-    if (document.querySelectorAll("." + buttonBarClass).length > 0) {
-        document.querySelector("." + buttonBarClass).classList.add("LCXT6");
-    }
-}
 
-showBottomBar();
-
-setInterval(function () {
-    showBottomBar()
-}, 1000);
-
-
+function beginExtension(){
+if(document.querySelectorAll("." + joinBTNClass).length > 0){
+console.log("studio721 started")
 document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", function () {
     function waitForLaunchedMeeting() {
-        console.log("running")
         if (document.querySelector("." + bottomBarClass) != null) {
 
             var viewerCFU = `
@@ -66,8 +56,6 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             `
 
             $("body").append(viewerCFU)
-
-
             var presenterCFU = `    
             <div id="presenter-dialog" style="z-index:400" class=" modal">
             <div class="modal-content">
@@ -91,24 +79,18 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                     </div>
                 </div>
             </div>
-        </div>
+        </div>`
 
-            `
             $("body").append(presenterCFU)
-
 
             function vote(choice) {
                 sendMessage(`studio721,vote,${choice}`)
                 document.getElementById("viewer-dialog").style.display = "none";
             }
 
-
-
             function displayCheckForUnderstanding() {
                 sendMessage("studio721,cfu,");
             }
-            // return document.querySelector(".choice").value;
-
 
             function barPercentage(node, tally) {
                 var choice = node.dataset.choice;
@@ -132,7 +114,6 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
 
             function listenForVote() {
                 var buttons = document.querySelectorAll(".choice button");
-
                 // Set up event listeners
                 for (var i = 0; i < buttons.length; i++) {
                     buttons[i].addEventListener("click", function (e) {
@@ -290,31 +271,31 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             $("body").prepend(popupGroup);
 
             var popup = `
-        <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
-            <div class="dialog-content animate-zoom" style="padding-top: 9px;">
-                <img width=170px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
-                <br>
-                <br>
-                <button style="margin-left:18px; margin-bottom: 5px;" class="tablink button byURL">By URL</button>
-                <button class="tablink button searchBarBTN ">Search</button>
-                <br>
-                <br>
-                <div id="Paste" class="container input-type">
-                    <input placeholder="Paste Youtube URL" value="https://www.youtube.com/watch?v=LkjvwtQfRw8"
-                        class="textInput" type="text" id="vid-url" size="30">
-                    <input type="button" class="form-control action selectBTN selectButton" value="Select"><br>
-                </div>
-                <div id="Search" class="container input-type">
-                    <input placeholder="Search Youtube" class="textInput" type="text" id="vid-name" size="30">
-                    <input type="button" class="selectButton action searchBTN" value="Search">
-                    <br>
-                </div>
-                <div id="response"></div>
-                <div class=" container light-grey padding">
-                    <button class="right button closeBTN" style="padding-top: 4px;"> Close</button>
-                </div>
-            </div>
-        </div>`;
+                <div id="dialog-box" style="display:var(--display-status); z-index:200;" class="dialog">
+                    <div class="dialog-content animate-zoom" style="padding-top: 9px;">
+                        <img width=170px; src="https://i.ibb.co/HGsnNGr/youtube.png" style="margin-top: 8px; margin-left: 8px;">
+                        <br>
+                        <br>
+                        <button style="margin-left:18px; margin-bottom: 5px;" class="tablink button byURL">By URL</button>
+                        <button class="tablink button searchBarBTN ">Search</button>
+                        <br>
+                        <br>
+                        <div id="Paste" class="container input-type">
+                            <input placeholder="Paste Youtube URL" value="https://www.youtube.com/watch?v=LkjvwtQfRw8"
+                                class="textInput" type="text" id="vid-url" size="30">
+                            <input type="button" class="form-control action selectBTN selectButton" value="Select"><br>
+                        </div>
+                        <div id="Search" class="container input-type">
+                            <input placeholder="Search Youtube" class="textInput" type="text" id="vid-name" size="30">
+                            <input type="button" class="selectButton action searchBTN" value="Search">
+                            <br>
+                        </div>
+                        <div id="response"></div>
+                        <div class=" container light-grey padding">
+                            <button class="right button closeBTN" style="padding-top: 4px;"> Close</button>
+                        </div>
+                    </div>
+                </div>`;
 
             $("body").append(popup);
 
@@ -403,17 +384,12 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
 
             //Play/Pause toggle
             $('#play-pause').on('click', function () {
-                // document.querySelectorAll("[data-tooltip]")[4].click()
                 var x = document.getElementById("play-pause");
                 if (x.innerHTML === "play_arrow") {
                     sendMessage("studio721,play,")
-                    // player.playVideo();
-                    // x.innerHTML = "pause";
                 } else {
                     paused = true;
                     sendMessage("studio721,pause,")
-                    // player.pauseVideo();
-                    // x.innerHTML = "play_arrow";
                 }
             });
 
@@ -456,7 +432,6 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                                 openYoutubeDialog();
                             });
                         }, 400);
-
                     });
                 } else {
                     console.log("didnt find presentor button yet")
@@ -593,21 +568,20 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
 
                                 var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
                                 $("#response").append(`
-
-                          <div class="parent">
-                               <div class="column">
-                                  <p class='video-title'>${title}</p>
-                                  <p class='video-date'>${formattedDate}</p>
-                                  <p class='video-description'>${description}</p>
-                                  <button class="button " id="playButton${id}" style="margin-left: 20px;">Share</button>
-                                  <button url="https://www.youtube.com/watch?v=${id}" class="viewOnyoutube" id="viewOnyoutube${id}">View On Youtube</button>
-                               </div>
-                               <div class="column">
-                                  <img src='${thumbnailImage}' id="videoThumbnail${id}"
-                                     class="video-thumbnail" width='189.75px' height='122.95px'>
-                               </div>
-                            </div>
-                            <hr>`)
+                                <div class="parent">
+                                    <div class="column">
+                                        <p class='video-title'>${title}</p>
+                                        <p class='video-date'>${formattedDate}</p>
+                                        <p class='video-description'>${description}</p>
+                                        <button class="button " id="playButton${id}" style="margin-left: 20px;">Share</button>
+                                        <button url="https://www.youtube.com/watch?v=${id}" class="viewOnyoutube" id="viewOnyoutube${id}">View On Youtube</button>
+                                    </div>
+                                    <div class="column">
+                                        <img src='${thumbnailImage}' id="videoThumbnail${id}"
+                                            class="video-thumbnail" width='189.75px' height='122.95px'>
+                                    </div>
+                                    </div>
+                                    <hr>`)
 
                                 document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function () {
                                     playVideo(id);
@@ -658,5 +632,11 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
     waitForLaunchedMeeting();
 });
 
+}else{
+    setTimeout(function () {
+        beginExtension();
+    }, 300);
+}
+}
 
-
+beginExtension();
