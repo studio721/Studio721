@@ -2,18 +2,12 @@
 var sentCFU = false;
 class MessageData {
     constructor(fullContent = "a,b,c") { //signal, service, content
-        var fullContent = fullContent.split(",");
-        this.signal = fullContent[0]; //signal should be "studio721" to signify the message's purpose
-        this.service = fullContent[1];
-        this.content = fullContent[2];
+	var fullContent = fullContent.split(",");
+	this.signal = fullContent[0]; //signal should be "studio721" to signify the message's purpose
+	this.service = fullContent[1];
+	this.content = fullContent[2];
     }
 }
-
-var authorization_token;
-function saveToken(token) {
-    authorization_token = token;
-}
-chrome.runtime.sendMessage('get_token', saveToken);
 
 var lastSentVideo = "";
 var player,
