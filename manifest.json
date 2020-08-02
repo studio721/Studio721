@@ -20,15 +20,18 @@
         },
         {
             "matches": ["*://*.meet.google.com/*"],
-            "js":["JS/inject.js","JS/external/youtube.js"],
+            "js":["JS/credentials.js","JS/inject.js","JS/external/youtube.js"],
             "css":["CSS/inject.css"]
         }
     ],
     "background":{
         "scripts":["JS/background.js"]
     },
+    "web_accessible_resources": [
+        "credentials.json"
+    ],
     "oauth2": {
-        "client_id": "794577565089-vl63fb4a2i618aed63448p153ns5629c.apps.googleusercontent.com",
+        "client_id": "877970995490-4k2309sla05klahjc420k23vpij4tvgj.apps.googleusercontent.com",
         "scopes":["https://www.googleapis.com/auth/youtube.readonly"]
     },
     "permissions": [
