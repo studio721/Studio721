@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
       - run: yarn
-      - run: yarn pack -o chrome-extension.zip
+      - run: yarn pack --filename chrome-extension.zip
       - uses: JasonEtco/upload-to-release@v0.1.1
         with:
           args: chrome-extension.zip application/zip
