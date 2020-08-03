@@ -530,38 +530,34 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
             }
             // });
 
-            function searchVideos(string) { //search for videos given a search string
-                if (string.length > 1) {
-                    $.ajax({
-                        type: 'GET',
-                        url: 'https://www.googleapis.com/youtube/v3/search',
-                        headers: {
-                            Authorization: 'Bearer ' + authorization_token,
-                        },
-                        data: {
-                            key: 'AIzaSyB9Q6dzIEP_l8ifEK8wDuO8dGWwFamNtKY',
-                            q: string,
-                            part: 'snippet',
-                            maxResults: 10,
-                            type: 'video',
-                            videoEmbeddable: true,
-                        },
-                        success: function (data) {
-                            $("#response").empty();
-                            $.each(data.items, function (index, item) {
-                                console.log(item);
-                                var title = item.snippet.title;
-                                var id = item.id.videoId;
-                                var description = item.snippet.description;
-                                var thumbnailImage = item.snippet.thumbnails.default.url;
+	    function searchVideos(keywords) { 
+		if (keywords.length > 1) {
+		    var request  = {
+			message_type: 'getVideosByKeywords',
+			keywords: keywords
+		    }
+		    chrome.runtime.sendMessage(request, displaySnippets);
+		} else {
+		    console.log("No keywords provided.");
+		}
+	    }
 
-                                var date = new Date(Date.parse(item.snippet.publishTime.toString()));
-                                const monthNames = ["January", "February", "March", "April", "May", "June",
+	    function displaySnippets(snippets) {
+	        $("#response").empty();
+                $.each(snippets, function (index, item) {
+                    console.log(item);
+                    var title = item.snippet.title;
+                    var id = item.id.videoId;
+                    var description = item.snippet.description;
+                    var thumbnailImage = item.snippet.thumbnails.default.url;
+
+                    var date = new Date(Date.parse(item.snippet.publishTime.toString()));
+                    const monthNames = ["January", "February", "March", "April", "May", "June",
                                     "July", "August", "September", "October", "November", "December"
                                 ];
 
-                                var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-                                $("#response").append(`
+                    var formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+                    $("#response").append(`
                                 <div class="parent">
                                     <div class="column">
                                         <p class='video-title'>${title}</p>
@@ -577,22 +573,16 @@ document.querySelectorAll("." + joinBTNClass)[0].addEventListener("mouseup", fun
                                     </div>
                                     <hr>`)
 
-                                document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function () {
-                                    playVideo(id);
-                                });
-                                document.querySelector(`#playButton${id}`).addEventListener("click", function () {
-                                    playVideo(id);
-                                });
-                                document.querySelector(`#viewOnyoutube${id}`).addEventListener("click", function () {
-                                    window.open(document.querySelector(`#viewOnyoutube${id}`).getAttribute("url"), '_blank');
-                                });
-                            });
-                        },
-                        error: function (response) {
-                            console.log("Request Failed");
-                        }
+                    document.querySelector(`#videoThumbnail${id}`).addEventListener("click", function () {
+                        playVideo(id);
                     });
-                }
+                    document.querySelector(`#playButton${id}`).addEventListener("click", function () {
+                        playVideo(id);
+                    });
+                    document.querySelector(`#viewOnyoutube${id}`).addEventListener("click", function () {
+                        window.open(document.querySelector(`#viewOnyoutube${id}`).getAttribute("url"), '_blank');
+                    });
+                });
             }
 
             function onPlayerStateChange(event) {
