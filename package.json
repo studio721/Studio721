@@ -1,0 +1,10 @@
+{
+  "name": "Studio 721",
+  "files": [
+    "/CSS",
+    "/JS",
+    "/assets/icon*",
+    "manifest.json",
+    "credentials.json"
+  ]
+}
