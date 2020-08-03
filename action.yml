@@ -1,0 +1,29 @@
+name: Upload
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: yarn
+      - run: yarn build
+        env:
+          WEB_APP_URL: https://someurl.com/
+          WELCOME_URL: https://someurl.com/
+      - uses: JasonEtco/upload-to-release@v0.1.1
+        with:
+          args: chrome-extension.zip application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: Klemensas/chrome-extension-upload-action@v1.3
+        with:
+          refresh-token: ${{ secrets.REFRESH_TOKEN }}
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          file-name: chrome-extension.zip
+          app-id: ${{ secrets.APP_ID }}
